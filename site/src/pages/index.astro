@@ -1,203 +1,318 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
 
-const modules = [
+// Development timeline. Each entry becomes a flip card:
+//   front  → image + title + short summary
+//   back   → a first-person journal entry with more detail
+const timeline = [
   {
-    name: 'base/',
-    desc: 'Core abstractions: the abstract Vehicle interface (command / stop / observe) and the Observation data model (camera image, front range, timestamp).',
-    files: ['vehicle.py', 'observation.py'],
+    date: '2025 · Step 01',
+    title: 'Defining the Vehicle interface',
+    tag: 'base/',
+    image: 'timeline/step-1.svg',
+    summary:
+      'An abstract Vehicle contract — command(), stop(), observe() — plus an Observation data model. The whole stack builds on this.',
+    journal:
+      "I wanted to start from the smallest possible contract instead of a hardware SDK. If I could describe a robot as just three verbs — command it, stop it, observe it — then every planner and controller I write later stays honest and portable. Observation was the harder call: I kept it to a camera image, a front range reading and a timestamp. No premature fields. It felt slow to write so little, but this is the seam the rest of the project hangs on.",
   },
   {
-    name: 'robots/',
-    desc: 'Concrete hardware drivers implementing the Vehicle interface. Includes a PiCar-X adapter translating velocity & steering-angle commands into SunFounder servo/motor calls.',
-    files: ['picarx.py'],
+    date: '2025 · Step 02',
+    title: 'The PiCar-X driver',
+    tag: 'robots/',
+    image: 'timeline/step-2.svg',
+    summary:
+      'A concrete adapter turning velocity + steering-angle commands into SunFounder servo and motor calls.',
+    journal:
+      "This is where the abstraction met a real, noisy machine. The PiCar-X thinks in servo values and motor duty cycles; my interface speaks m/s and radians. Writing the adapter forced me to admit how much I was hand-waving about units. I resisted the urge to 'fix' the vendor library and instead wrote a thin translation layer, so the mess stays quarantined in one file and the rest of the stack never sees it.",
   },
   {
-    name: 'calibration_experiments/',
-    desc: 'Bench scripts to calibrate real-world units against hardware: mapping motor speed to m/s and servo angle to steering radians.',
-    files: ['vehicle_velocity_validation.py', 'wheel_angle_validation.py'],
-  },
-];
-
-const features = [
-  {
-    title: 'Hardware-agnostic core',
-    body: 'A clean Vehicle abstraction lets the same planning & control code run on any robot that implements command(), stop() and observe().',
+    date: '2025 · Step 03',
+    title: 'Calibrating velocity',
+    tag: 'calibration_experiments/',
+    image: 'timeline/step-3.svg',
+    summary:
+      'A bench experiment mapping commanded motor speed to real-world metres per second.',
+    journal:
+      "Nothing humbles you like a tape measure. I commanded fixed speeds, timed the car over a known distance, and the numbers were not linear the way I'd hoped. I stopped trying to derive the mapping and just measured it. This entry is really about a mindset shift: the code is only as trustworthy as the last time I validated it against the floor of my apartment.",
   },
   {
-    title: 'Real-world units',
-    body: 'Commands are expressed in SI units — velocity in m/s and steering in radians — instead of vendor-specific servo values.',
+    date: '2025 · Step 04',
+    title: 'Calibrating steering',
+    tag: 'calibration_experiments/',
+    image: 'timeline/step-4.svg',
+    summary:
+      'Mapping servo angle to an actual steering radius so a commanded turn matches reality.',
+    journal:
+      "Steering was subtler than velocity because the error compounds over a path, not a point. A few degrees of servo bias becomes a slow drift into the wall. I built a small validation script and watched the difference between what I asked for and what the geometry did. Getting this repeatable — same command, same arc — mattered more to me than getting it perfectly centred.",
   },
   {
-    title: 'Classical, not learned',
-    body: 'A transparent, debuggable autonomy pipeline built from first principles rather than end-to-end neural networks.',
-  },
-  {
-    title: 'Calibrated by measurement',
-    body: 'Dedicated experiments validate the mapping between commanded values and physical behaviour on real hardware.',
+    date: '2025 · Step 05',
+    title: 'Documenting in the open',
+    tag: 'site/',
+    image: 'timeline/step-5.svg',
+    summary:
+      'This site — a running, honest log of the build rather than a polished pitch.',
+    journal:
+      "I didn't want a marketing page. I wanted a lab notebook that happens to be public, so the reasoning behind each step survives longer than my memory of it. If a future version of me — or anyone building on this — wants to know why a decision was made, it should be one card-flip away.",
   },
 ];
 ---
 
 <Layout title="Classical Autonomy Stack">
-  <header class="hero">
+  <header class="masthead">
     <div class="container">
-      <p class="eyebrow">Autonomous vehicles · robotics · classical control</p>
+      <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
       <h1>Classical Autonomy Stack</h1>
-      <p class="lead">
-        A transparent, hardware-agnostic autonomy software stack for small
-        autonomous vehicles — starting with the SunFounder
-        <strong>PiCar-X</strong>. Clean abstractions, real-world units, and
-        calibration you can trust.
+      <p class="sub">
+        A build log for a transparent, hardware-agnostic autonomy stack —
+        starting with the SunFounder PiCar-X. Each step below flips open to a
+        short journal entry from my perspective.
       </p>
-      <div class="cta">
-        <a class="btn primary" href="#modules">Explore the stack</a>
-        <a class="btn" href="https://github.com/herrnel/classical-autonomy-stack">View on GitHub</a>
-      </div>
+      <nav class="meta">
+        <a href="https://github.com/herrnel/classical-autonomy-stack">Source ↗</a>
+        <span class="hint">Tap a card to read the journal entry</span>
+      </nav>
     </div>
   </header>
 
   <main class="container">
-    <section>
-      <h2>Why this project</h2>
-      <div class="grid">
-        {features.map((f) => (
-          <div class="card">
-            <h3>{f.title}</h3>
-            <p>{f.body}</p>
+    <ol class="timeline">
+      {timeline.map((entry, i) => (
+        <li class="row">
+          <div class="rail" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
           </div>
-        ))}
-      </div>
-    </section>
 
-    <section id="modules">
-      <h2>The stack</h2>
-      <p class="section-lead">
-        The codebase is organised into small, composable layers.
-      </p>
-      <div class="modules">
-        {modules.map((m) => (
-          <article class="module">
-            <h3><code>{m.name}</code></h3>
-            <p>{m.desc}</p>
-            <ul class="files">
-              {m.files.map((file) => <li><code>{file}</code></li>)}
-            </ul>
-          </article>
-        ))}
-      </div>
-    </section>
+          <button class="card" type="button" aria-expanded="false">
+            <div class="flip">
+              <div class="face front">
+                <div class="img" style={`background-image:url(${base}${entry.image})`}></div>
+                <div class="body">
+                  <div class="tagline">
+                    <span class="date">{entry.date}</span>
+                    <code class="tag">{entry.tag}</code>
+                  </div>
+                  <h2>{entry.title}</h2>
+                  <p>{entry.summary}</p>
+                  <span class="flip-hint">Journal →</span>
+                </div>
+              </div>
 
-    <section id="interface">
-      <h2>The Vehicle interface</h2>
-      <p class="section-lead">
-        Every robot in the stack implements the same minimal contract.
-      </p>
-      <pre><code>{`class Vehicle(ABC):
-    @abstractmethod
-    def command(self, velocity_mps: float, steering_rad: float):
-        """Commands must contain velocity_mps and steering_rad"""
-
-    @abstractmethod
-    def stop(self):
-        ...
-
-    @abstractmethod
-    def observe(self) -> Observation:
-        ...`}</code></pre>
-    </section>
-
-    <section id="start">
-      <h2>Getting started</h2>
-      <pre><code>{`git clone https://github.com/herrnel/classical-autonomy-stack.git
-cd classical-autonomy-stack
-python main.py`}</code></pre>
-      <p>
-        Bring your own robot by implementing <code>Vehicle</code>, or run the
-        calibration experiments to tune the PiCar-X adapter to your hardware.
-      </p>
-    </section>
+              <div class="face back">
+                <div class="body">
+                  <div class="tagline">
+                    <span class="date">{entry.date}</span>
+                    <span class="label">Journal</span>
+                  </div>
+                  <h2>{entry.title}</h2>
+                  <p class="entry">{entry.journal}</p>
+                  <span class="flip-hint">← Back</span>
+                </div>
+              </div>
+            </div>
+          </button>
+        </li>
+      ))}
+    </ol>
   </main>
 
   <footer class="container">
     <p>Built with <a href="https://astro.build">Astro</a> · Deployed on GitHub Pages</p>
   </footer>
 
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('.card').forEach((card) => {
+      card.addEventListener('click', () => {
+        const flipped = card.classList.toggle('is-flipped');
+        card.setAttribute('aria-expanded', String(flipped));
+      });
+    });
+  </script>
+
   <style>
-    .hero {
-      padding: 5rem 0 3.5rem;
-      background: radial-gradient(1200px 500px at 50% -10%, rgba(88,166,255,0.15), transparent 60%);
+    /* ---- Masthead: stark, no glow, no buttons ---- */
+    .masthead {
+      padding: 4.5rem 0 3rem;
       border-bottom: 1px solid var(--border);
-      text-align: center;
     }
-    .eyebrow {
-      color: var(--accent);
+    .kicker {
+      margin: 0 0 1rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.8rem;
-      margin: 0 0 0.5rem;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      color: var(--muted);
     }
     h1 {
-      font-size: clamp(2.2rem, 6vw, 3.6rem);
       margin: 0 0 1rem;
-      line-height: 1.1;
-      background: linear-gradient(180deg, #fff, #9fb2c8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
     }
-    .lead {
-      max-width: 640px;
-      margin: 0 auto 2rem;
+    .sub {
+      max-width: 60ch;
+      margin: 0 0 1.5rem;
       color: var(--muted);
-      font-size: 1.15rem;
+      font-size: 1.05rem;
     }
-    .lead strong { color: var(--text); }
-    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-block;
-      padding: 0.65rem 1.3rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-weight: 600;
+    .meta {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
     }
-    .btn:hover { border-color: var(--accent); text-decoration: none; }
-    .btn.primary { background: var(--accent); color: #08111f; border-color: var(--accent); }
+    .meta .hint { color: var(--muted); }
 
-    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
-    h2 { font-size: 1.8rem; margin: 0 0 0.5rem; }
-    .section-lead { color: var(--muted); margin: 0 0 1.75rem; }
-
-    .grid {
+    /* ---- Timeline ---- */
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 3rem 0 4rem;
+    }
+    .row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
+      grid-template-columns: 3.25rem 1fr;
+      gap: 1.25rem;
+      padding-bottom: 2.5rem;
     }
-    .card, .module {
+    .row:last-child { padding-bottom: 0; }
+
+    .rail {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 0.4rem;
+    }
+    .rail::before {
+      content: '';
+      position: absolute;
+      top: 1.4rem;
+      bottom: -2.5rem;
+      width: 1px;
+      background: var(--border);
+    }
+    .row:last-child .rail::before { display: none; }
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      z-index: 1;
+    }
+    .num {
+      margin-top: 0.5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ---- Flip card ---- */
+    .card {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      perspective: 1600px;
+    }
+    .flip {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+      min-height: 340px;
+    }
+    .card.is-flipped .flip { transform: rotateY(180deg); }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.4rem;
+      border-radius: 4px;
+      overflow: hidden;
     }
-    .card h3, .module h3 { margin: 0 0 0.5rem; color: var(--accent-2); }
-    .card p, .module p { margin: 0; color: var(--muted); }
+    .card:hover .face { border-color: #444c56; }
+    .back { transform: rotateY(180deg); }
 
-    .modules { display: grid; gap: 1rem; }
-    .module h3 code { background: transparent; border: 0; padding: 0; color: var(--accent); }
-    .files { list-style: none; padding: 0; margin: 0.9rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .files li { margin: 0; }
-
-    pre {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.4rem;
-      overflow-x: auto;
+    .img {
+      height: 190px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid var(--border);
+      filter: saturate(0.9);
     }
-    pre code { background: transparent; border: 0; padding: 0; font-size: 0.9rem; line-height: 1.7; }
+    .body {
+      padding: 1.1rem 1.3rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .back .body { padding-top: 1.3rem; overflow-y: auto; }
 
-    footer { padding: 2.5rem 0; text-align: center; color: var(--muted); }
+    .tagline {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .date {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .tag {
+      font-size: 0.72rem;
+      padding: 0.05em 0.45em;
+      color: var(--accent);
+      background: transparent;
+      border-color: var(--border);
+    }
+    .label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-2);
+    }
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    .entry { font-size: 0.92rem; }
+    .flip-hint {
+      margin-top: auto;
+      padding-top: 0.9rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+    }
+
+    @media (max-width: 560px) {
+      .row { grid-template-columns: 2rem 1fr; gap: 0.85rem; }
+      .flip { min-height: 380px; }
+    }
+
+    footer { padding: 2.5rem 0; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
   </style>
 </Layout>
