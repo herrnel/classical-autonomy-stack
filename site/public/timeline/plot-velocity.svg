@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <rect width="900" height="560" fill="#ffffff"/>
+  <g stroke="#d0d7de" stroke-width="1">
+    <line x1="90" y1="60" x2="90" y2="480"/><line x1="90" y1="480" x2="840" y2="480"/>
+    <line x1="90" y1="130" x2="840" y2="130" stroke="#eaeef2"/>
+    <line x1="90" y1="200" x2="840" y2="200" stroke="#eaeef2"/>
+    <line x1="90" y1="270" x2="840" y2="270" stroke="#eaeef2"/>
+    <line x1="90" y1="340" x2="840" y2="340" stroke="#eaeef2"/>
+    <line x1="90" y1="410" x2="840" y2="410" stroke="#eaeef2"/>
+  </g>
+  <polyline fill="none" stroke="#0969da" stroke-width="3"
+    points="120,430 240,380 360,360 480,300 600,250 720,170 810,120"/>
+  <g fill="#0969da">
+    <circle cx="120" cy="430" r="5"/><circle cx="240" cy="380" r="5"/><circle cx="360" cy="360" r="5"/>
+    <circle cx="480" cy="300" r="5"/><circle cx="600" cy="250" r="5"/><circle cx="720" cy="170" r="5"/><circle cx="810" cy="120" r="5"/>
+  </g>
+  <text x="465" y="525" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="20" fill="#656d76">commanded speed</text>
+  <text x="34" y="270" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="20" fill="#656d76" transform="rotate(-90 34 270)">measured m/s</text>
+</svg>
