@@ -234,8 +234,8 @@ const entries = [...timeline].reverse(); // newest first
     }
     .has-selection .timeline {
       margin: 0;               /* shift to the left */
-      max-width: 400px;
-      flex: 0 0 400px;
+      max-width: 300px;
+      flex: 0 0 300px;
     }
 
     .row { display: grid; grid-template-columns: 3.25rem 1fr; gap: 1.25rem; padding-bottom: 2.5rem; scroll-margin-top: 2rem; }
@@ -273,8 +273,7 @@ const entries = [...timeline].reverse(); // newest first
     .has-selection .panel { flex: 1 1 auto; width: auto; opacity: 1; }
     .panel-inner {
       position: sticky; top: 1.5rem;
-      border: 1px solid var(--border); border-radius: 6px;
-      background: var(--panel);
+      background: transparent;
       max-height: calc(100vh - 3rem); overflow-y: auto;
     }
     .detail { display: none; padding: 1.5rem 1.75rem 2rem; }
@@ -298,6 +297,7 @@ const entries = [...timeline].reverse(); // newest first
     @media (max-width: 820px) {
       .workspace { gap: 0; }
       .has-selection .timeline { max-width: 680px; flex: 1 1 auto; margin: 0 auto; }
+      .panel-inner { background: var(--panel); }
       .panel { position: fixed; inset: 0; z-index: 40; flex: none; width: 100vw; background: rgba(0,0,0,0.25); padding: 0; }
       .panel-inner { position: absolute; inset: 0; border-radius: 0; max-height: none; border: 0; }
       .detail { min-height: 100%; }
