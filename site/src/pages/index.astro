@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const modules = [
+  {
+    name: 'base/',
+    desc: 'Core abstractions: the abstract Vehicle interface (command / stop / observe) and the Observation data model (camera image, front range, timestamp).',
+    files: ['vehicle.py', 'observation.py'],
+  },
+  {
+    name: 'robots/',
+    desc: 'Concrete hardware drivers implementing the Vehicle interface. Includes a PiCar-X adapter translating velocity & steering-angle commands into SunFounder servo/motor calls.',
+    files: ['picarx.py'],
+  },
+  {
+    name: 'calibration_experiments/',
+    desc: 'Bench scripts to calibrate real-world units against hardware: mapping motor speed to m/s and servo angle to steering radians.',
+    files: ['vehicle_velocity_validation.py', 'wheel_angle_validation.py'],
+  },
+];
+
+const features = [
+  {
+    title: 'Hardware-agnostic core',
+    body: 'A clean Vehicle abstraction lets the same planning & control code run on any robot that implements command(), stop() and observe().',
+  },
+  {
+    title: 'Real-world units',
+    body: 'Commands are expressed in SI units — velocity in m/s and steering in radians — instead of vendor-specific servo values.',
+  },
+  {
+    title: 'Classical, not learned',
+    body: 'A transparent, debuggable autonomy pipeline built from first principles rather than end-to-end neural networks.',
+  },
+  {
+    title: 'Calibrated by measurement',
+    body: 'Dedicated experiments validate the mapping between commanded values and physical behaviour on real hardware.',
+  },
+];
+---
+
+<Layout title="Classical Autonomy Stack">
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">Autonomous vehicles · robotics · classical control</p>
+      <h1>Classical Autonomy Stack</h1>
+      <p class="lead">
+        A transparent, hardware-agnostic autonomy software stack for small
+        autonomous vehicles — starting with the SunFounder
+        <strong>PiCar-X</strong>. Clean abstractions, real-world units, and
+        calibration you can trust.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#modules">Explore the stack</a>
+        <a class="btn" href="https://github.com/herrnel/classical-autonomy-stack">View on GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Why this project</h2>
+      <div class="grid">
+        {features.map((f) => (
+          <div class="card">
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="modules">
+      <h2>The stack</h2>
+      <p class="section-lead">
+        The codebase is organised into small, composable layers.
+      </p>
+      <div class="modules">
+        {modules.map((m) => (
+          <article class="module">
+            <h3><code>{m.name}</code></h3>
+            <p>{m.desc}</p>
+            <ul class="files">
+              {m.files.map((file) => <li><code>{file}</code></li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="interface">
+      <h2>The Vehicle interface</h2>
+      <p class="section-lead">
+        Every robot in the stack implements the same minimal contract.
+      </p>
+      <pre><code>{`class Vehicle(ABC):
+    @abstractmethod
+    def command(self, velocity_mps: float, steering_rad: float):
+        """Commands must contain velocity_mps and steering_rad"""
+
+    @abstractmethod
+    def stop(self):
+        ...
+
+    @abstractmethod
+    def observe(self) -> Observation:
+        ...`}</code></pre>
+    </section>
+
+    <section id="start">
+      <h2>Getting started</h2>
+      <pre><code>{`git clone https://github.com/herrnel/classical-autonomy-stack.git
+cd classical-autonomy-stack
+python main.py`}</code></pre>
+      <p>
+        Bring your own robot by implementing <code>Vehicle</code>, or run the
+        calibration experiments to tune the PiCar-X adapter to your hardware.
+      </p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>Built with <a href="https://astro.build">Astro</a> · Deployed on GitHub Pages</p>
+  </footer>
+
+  <style>
+    .hero {
+      padding: 5rem 0 3.5rem;
+      background: radial-gradient(1200px 500px at 50% -10%, rgba(88,166,255,0.15), transparent 60%);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      margin: 0 0 0.5rem;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      margin: 0 0 1rem;
+      line-height: 1.1;
+      background: linear-gradient(180deg, #fff, #9fb2c8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lead {
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+    .lead strong { color: var(--text); }
+    .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.3rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .btn:hover { border-color: var(--accent); text-decoration: none; }
+    .btn.primary { background: var(--accent); color: #08111f; border-color: var(--accent); }
+
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    h2 { font-size: 1.8rem; margin: 0 0 0.5rem; }
+    .section-lead { color: var(--muted); margin: 0 0 1.75rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .card, .module {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+    }
+    .card h3, .module h3 { margin: 0 0 0.5rem; color: var(--accent-2); }
+    .card p, .module p { margin: 0; color: var(--muted); }
+
+    .modules { display: grid; gap: 1rem; }
+    .module h3 code { background: transparent; border: 0; padding: 0; color: var(--accent); }
+    .files { list-style: none; padding: 0; margin: 0.9rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .files li { margin: 0; }
+
+    pre {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      overflow-x: auto;
+    }
+    pre code { background: transparent; border: 0; padding: 0; font-size: 0.9rem; line-height: 1.7; }
+
+    footer { padding: 2.5rem 0; text-align: center; color: var(--muted); }
+  </style>
+</Layout>

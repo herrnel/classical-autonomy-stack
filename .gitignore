@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Node / Astro site
+site/node_modules/
+site/dist/
+site/.astro/
+
+# OS
+.DS_Store
