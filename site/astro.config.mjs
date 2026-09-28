@@ -8,7 +8,7 @@ import { defineConfig } from 'astro/config';
 // `base` is the repository name and must match for project pages.
 export default defineConfig({
   site: 'https://herrnel.github.io',
-  base: '/classical-autonomy-stack',
+  base: '/classical-autonomy-stack/',
   markdown: {
     // Syntax highlighting theme for fenced code blocks (```python, ```js, …).
     // Language is auto-detected from the fence info string.
