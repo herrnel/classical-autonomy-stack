@@ -192,14 +192,16 @@ const showJump = items.length >= 8;
     // ---- Auto-hide the main timeline while reading (mini-rail stays) ----
     const timelineEl = document.querySelector<HTMLElement>('.timeline');
     let hideTimer: number | undefined;
+    let overTimeline = false;
     const SHOW_ZONE = 320; // px from the left edge that re-reveals the timeline
     function revealTimeline() {
       if (!root.classList.contains('reading')) return;
       root.classList.remove('timeline-hidden');
       clearTimeout(hideTimer);
-      hideTimer = window.setTimeout(() => root.classList.add('timeline-hidden'), 2600);
+      if (!overTimeline) hideTimer = window.setTimeout(() => root.classList.add('timeline-hidden'), 2600);
     }
     function hideTimelineNow() {
+      if (overTimeline) return; // never hide while hovering the timeline
       if (root.classList.contains('reading')) root.classList.add('timeline-hidden');
     }
     // Reveal when the mouse nears the left edge; hide when it's in the blank
@@ -211,10 +213,12 @@ const showJump = items.length >= 8;
       if (panel && e.clientX > panel.getBoundingClientRect().right) hideTimelineNow();
     });
     timelineEl?.addEventListener('mouseenter', () => {
+      overTimeline = true;
       root.classList.remove('timeline-hidden');
       clearTimeout(hideTimer);
     });
     timelineEl?.addEventListener('mouseleave', () => {
+      overTimeline = false;
       hideTimer = window.setTimeout(() => root.classList.add('timeline-hidden'), 2600);
     });
     // Hide as soon as the reader scrolls
