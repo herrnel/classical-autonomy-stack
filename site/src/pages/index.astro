@@ -268,10 +268,10 @@ const entries = modules
        background scrolls it), while the timeline is a fixed box that scrolls
        its own content independently. */
     @media (min-width: 821px) {
-      :global(html.reading) .panel-inner {
+      :global(html.reading) .has-selection .panel-inner {
         position: static; max-height: none; overflow: visible; top: auto;
       }
-      :global(html.reading) .panel {
+      :global(html.reading) .has-selection .panel {
         --jw: 44rem;            /* journal column width */
         flex: none;
         width: var(--jw);
@@ -279,7 +279,7 @@ const entries = modules
         margin-right: auto;
         opacity: 1;
       }
-      :global(html.reading) .timeline {
+      :global(html.reading) .has-selection .timeline {
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
