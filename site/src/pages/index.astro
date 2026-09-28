@@ -286,15 +286,17 @@ const entries = modules
         left: 2.4rem;           /* as close to the left as possible, clear of the mini timeline */
         right: calc(50% + 25rem + 4rem);
         flex: none; width: auto; max-width: none;
+        display: flex; flex-direction: column; justify-content: safe center;  /* vertically centre the cards */
+        align-items: flex-start;
         overflow-y: auto;
         overscroll-behavior: contain;
         padding-right: 0.5rem;
       }
-      /* Compact cards while reading: no image, tighter, smaller, centred */
-      :global(html.reading) .has-selection .row { grid-template-columns: 1.1rem 1fr; gap: 0.55rem; padding-bottom: 1.1rem; max-width: 14rem; margin: 0 auto; }
+      /* Compact cards while reading: no image, tighter, left-aligned */
+      :global(html.reading) .has-selection .row { grid-template-columns: 1.2rem 1fr; gap: 0.6rem; padding-bottom: 1.1rem; width: 17rem; max-width: 100%; margin: 0; }
       :global(html.reading) .has-selection .card .img { display: none; }
-      :global(html.reading) .has-selection .card .body { padding: 0.55rem 0.7rem; }
-      :global(html.reading) .has-selection .card h2 { font-size: 0.85rem; margin-bottom: 0.15rem; }
+      :global(html.reading) .has-selection .card .body { padding: 0.75rem 0.95rem; }
+      :global(html.reading) .has-selection .card h2 { font-size: 0.95rem; margin-bottom: 0.2rem; }
       :global(html.reading) .has-selection .card p,
       :global(html.reading) .has-selection .card .open-hint { display: none; }
     }
