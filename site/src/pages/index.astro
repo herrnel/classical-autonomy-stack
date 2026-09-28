@@ -249,6 +249,7 @@ const entries = modules
     .date { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); }
     .tag { font-size: 0.72rem; padding: 0.05em 0.45em; color: var(--accent); background: transparent; border-color: var(--border); }
     .card h2 { margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 650; letter-spacing: -0.01em; }
+    .card .tag { display: none; }   /* no file/folder link on the timeline cards */
     .card p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.55; }
     .open-hint { display: inline-block; margin-top: 0.9rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--accent); }
 
@@ -283,7 +284,7 @@ const entries = modules
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
-        left: 2.4rem;           /* as close to the left as possible, clear of the mini timeline */
+        left: 3.1rem;           /* nudged slightly right, still clear of the mini timeline */
         right: calc(50% + 25rem + 4rem);
         flex: none; width: auto; max-width: none;
         display: flex; flex-direction: column; justify-content: safe center;  /* vertically centre the cards */
