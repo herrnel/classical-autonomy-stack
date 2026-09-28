@@ -4,7 +4,7 @@ date: "9/27/2025 · Step 00"
 title: "Not Boiling the Ocean"
 tag: "base/"
 image: "timeline/step-0.svg"
-summary: "My goal was to turn my PiCar-X into an autonomous system whose, perception, work representation, planning, and control are modules I can explain and debug myself"
+summary: "Why is project planning so important? Especially for Robotics?"
 ---
 
 
@@ -17,7 +17,7 @@ This was my first real hands-on experience with a robot in a very long time so p
 
 Recently before this, I had tried to create an drone autonomy stack inside of gazebo which ended up not doing much. Poor goal setting on my part sling-shot me down a rabbit hole of never ending learning and setup nonesense until it became one of those "half finished projects" people are always talking about. 
 
-**I learned a ton, but not to having a finished project is disappointing.** 
+**I learned a ton, b ut not to having a finished project is disappointing.** 
 
 Therefore, to make this new project enjoyable and feasible I decided to have some actual learning goals. 
 
