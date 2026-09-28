@@ -272,11 +272,11 @@ const entries = modules
         position: static; max-height: none; overflow: visible; top: auto;
       }
       :global(html.reading) .panel {
-        --jw: 46rem;            /* journal column width */
+        --jw: 44rem;            /* journal column width */
         flex: none;
         width: var(--jw);
-        margin-left: auto;      /* journal sits on the right half */
-        margin-right: 2rem;
+        margin-left: auto;      /* centre the journal on screen */
+        margin-right: auto;
         opacity: 1;
       }
       :global(html.reading) .timeline {
@@ -284,24 +284,13 @@ const entries = modules
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
         left: 4.5rem;
-        right: calc(46rem + 5rem);   /* journal width + margin + gap */
+        /* end 3.5rem to the left of the journal's left edge (journal is 44rem,
+           so its left edge is at 50% - 22rem) */
+        right: calc(50% + 22rem + 3.5rem);
         flex: none; width: auto; max-width: none;
         overflow-y: auto;
         overscroll-behavior: contain;
         padding-right: 0.5rem;
-      }
-    }
-    /* On wide screens the journal is centred on the screen and the timeline
-       fills whatever space is left on the left side */
-    @media (min-width: 1200px) {
-      :global(html.reading) .panel {
-        margin-left: auto;
-        margin-right: auto;     /* centre the journal on screen */
-      }
-      :global(html.reading) .timeline {
-        /* end 3.5rem to the left of the journal's left edge (journal is 46rem,
-           so its left edge is at 50% - 23rem) */
-        right: calc(50% + 23rem + 3.5rem);
       }
     }
     .detail { display: none; padding: 0.25rem 0.5rem 2rem 0; }
