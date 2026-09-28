@@ -36,6 +36,9 @@ Observation was the harder call: I kept it to a camera image, a front range
 reading and a timestamp. No premature fields. It felt slow to write so little,
 but this is the seam the rest of the project hangs on.
 
+> Design note: keep the core contract boring. Every clever idea I had here
+> turned into a liability the moment a second robot needed to implement it.
+
 `base/observation.py`
 
 ```python
