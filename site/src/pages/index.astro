@@ -26,6 +26,7 @@ const entries = modules
       <nav class="meta">
         <a href="https://github.com/herrnel/classical-autonomy-stack">Source ↗</a>
         <span class="hint">Select a card to open its journal entry</span>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
       </nav>
     </div>
   </header>
@@ -104,7 +105,19 @@ const entries = modules
     const details = workspace.querySelectorAll<HTMLElement>('.detail');
     const miniItems = workspace.querySelectorAll<HTMLButtonElement>('.mini-item');
     const viewFull = document.querySelector<HTMLButtonElement>('.view-full')!;
+    const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
     let activeCard: HTMLButtonElement | null = null;
+
+    function syncTheme() {
+      themeToggle.textContent = root.dataset.theme === 'dark' ? '☀ Light' : '☾ Dark';
+    }
+    syncTheme();
+    themeToggle.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('theme', next);
+      syncTheme();
+    });
 
     function setHeaderVar() {
       root.style.setProperty('--header-h', mast.offsetHeight + 'px');
@@ -189,6 +202,8 @@ const entries = modules
     .sub { max-width: 60ch; margin: 0 0 1.5rem; color: var(--muted); font-size: 1.05rem; }
     .meta { display: flex; align-items: baseline; gap: 1.25rem; flex-wrap: wrap; font-size: 0.85rem; }
     .meta .hint { color: var(--muted); }
+    .theme-toggle { font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.7rem; cursor: pointer; }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ---- Workspace: timeline (left) + journal panel (right) ---- */
     .workspace-wrap { padding: 0 2rem; }
@@ -271,17 +286,17 @@ const entries = modules
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
     /* Rendered Markdown journal body (Shiki/markdown HTML has no scope id, so use :global) */
     .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; color: var(--accent-2); }
-    .prose :global(p) { margin: 0 0 1rem; color: #3d444d; line-height: 1.7; }
+    .prose :global(p) { margin: 0 0 1rem; color: var(--prose); line-height: 1.7; }
     .prose :global(:not(pre) > code) { background: transparent; border: 0; padding: 0.05em 0.15em; font-size: 0.85em; color: var(--accent); }
     .prose :global(pre) { margin: 0 0 1.25rem; padding: 0.9rem 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
     .prose :global(pre code) { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.45; }
     .prose :global(img) { max-width: 360px; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0.25rem auto 0.4rem; cursor: zoom-in; }
     /* An italic line right after an image acts as its caption */
     .prose :global(img + em), .prose :global(p > em:only-child) { display: block; font-size: 0.8rem; font-style: normal; color: var(--muted); text-align: center; margin: 0 0 1.25rem; }
-    .prose :global(ul), .prose :global(ol) { color: #3d444d; line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
+    .prose :global(ul), .prose :global(ol) { color: var(--prose); line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
     .prose :global(a) { color: var(--accent); }
     /* Blockquotes ( > lines ) get a clean accent treatment */
-    .prose :global(blockquote) { margin: 0 0 1.25rem; padding: 0.6rem 1rem; border-left: 3px solid var(--accent); background: #f6f8fa; color: #3d444d; border-radius: 0 6px 6px 0; }
+    .prose :global(blockquote) { margin: 0 0 1.25rem; padding: 0.6rem 1rem; border-left: 3px solid var(--accent); background: var(--note-bg); color: var(--prose); border-radius: 0 6px 6px 0; }
     .prose :global(blockquote p) { margin: 0; }
     .prose :global(strong) { color: var(--text); }
 

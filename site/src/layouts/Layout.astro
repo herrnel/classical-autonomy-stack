@@ -16,6 +16,12 @@ const base = import.meta.env.BASE_URL;
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <title>{title}</title>
+    <script is:inline>
+      // Apply the saved / preferred theme before paint to avoid a flash
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = stored || (prefersDark ? 'dark' : 'light');
+    </script>
   </head>
   <body>
     <slot />
@@ -28,6 +34,21 @@ const base = import.meta.env.BASE_URL;
         --muted: #656d76;
         --accent: #0969da;
         --accent-2: #1a7f37;
+        --prose: #3d444d;
+        --note-bg: #f6f8fa;
+      }
+      /* Dark mode — warm charcoal / cream / amber, after Jason Cohen's "A Smart Bear" blog */
+      html[data-theme='dark'] {
+        --bg: #1a1917;
+        --panel: #221f1a;
+        --border: #3a352d;
+        --text: #ece5d8;
+        --muted: #a49a88;
+        --accent: #e0a458;
+        --accent-2: #cf8a3b;
+        --prose: #cfc6b6;
+        --note-bg: #26221b;
+        color-scheme: dark;
       }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -50,6 +71,9 @@ const base = import.meta.env.BASE_URL;
         font-size: 0.9em;
       }
       .container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+      /* Dual-theme syntax highlighting: activate Shiki's dark palette in dark mode */
+      html[data-theme='dark'] .astro-code { background-color: var(--shiki-dark-bg) !important; }
+      html[data-theme='dark'] .astro-code span { color: var(--shiki-dark) !important; }
     </style>
   </body>
 </html>

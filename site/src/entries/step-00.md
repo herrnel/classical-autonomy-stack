@@ -7,11 +7,11 @@ image: "timeline/step-0.svg"
 summary: "My goal was to turn my PiCar-X into an autonomous system whose, perception, work representation, planning, and control are modules I can explain and debug myself"
 ---
 
-This was my first real hands-on experience with a robot in many years. As a result there were a few things I needed to catch up on and not a lot of time. 
+This was my first real hands-on experience with a robot in many years. I had previosly tried creating an autonomy stack for a drone inside of gazebo but sadly went down a rabbit hole and became one of those half finished project people are always talking about. 
 
-I had previosly tried creating an autonomy stack and went down a rabbit hole due to unclear learning goals.
+The main reason for me this time, was because of unclear learning goals.
 
-Therefore to make this enjoyable I decided to set some clear learning goals. 
+Therefore to make this time enjoyable (and feasible) I decided to write some clear ones. 
 
 **Learning Goals**
 
@@ -26,7 +26,8 @@ Therefore to make this enjoyable I decided to set some clear learning goals.
 You might be wondering how I came up with such a clear set of learning goals? Figuring out where to start has always been a real time killer for me when it comes to learning new skills. 
 Thankfully this time I already had a good idea of what I wanted to build so I just worked backwards to find the skills I needed. 
 
-**Project Goal*
+**Project Goal**
+
 
 > "Build a small autonomous car that can stay within lanes created out of electrical tape and avoid parked vehicles while it makes its way to its destination using computer vision.
 

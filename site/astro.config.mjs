@@ -13,7 +13,11 @@ export default defineConfig({
     // Syntax highlighting theme for fenced code blocks (```python, ```js, …).
     // Language is auto-detected from the fence info string.
     shikiConfig: {
-      theme: 'github-light',
+      // Dual themes: light for the default theme, dark for `data-theme="dark"`.
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
       wrap: false,
     },
   },
