@@ -28,7 +28,10 @@ const showJump = items.length >= 8;
   <header class="masthead">
     <div class="container">
       <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
-      <h1>Classical Autonomy Stack</h1>
+      <div class="brand">
+        <img class="logo" src={`${base}logo.svg`} alt="" />
+        <h1>Classical Autonomy Stack</h1>
+      </div>
       <p class="sub">
         A build log for a transparent, hardware-agnostic autonomy stack —
         starting with the SunFounder PiCar-X. Most recent work is at the top;
@@ -292,6 +295,8 @@ const showJump = items.length >= 8;
     :global(html.reading) .masthead .hint { display: none; }
     :global(html.reading) .masthead .container { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 1.25rem; }
     :global(html.reading) .masthead h1 { font-size: 1rem; margin: 0; }
+    :global(html.reading) .masthead .brand { margin: 0; }
+    :global(html.reading) .masthead .logo { height: 1.5rem; }
     :global(html.reading) .masthead .meta { margin: 0; }
     /* Control to close the journal and view all cards */
     .view-full { display: none; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; }
@@ -299,6 +304,9 @@ const showJump = items.length >= 8;
     :global(html.reading) .view-full { display: inline-block; }
     .kicker { margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem; color: var(--muted); }
     h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+    .brand { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1rem; }
+    .brand h1 { margin: 0; }
+    .logo { height: clamp(2rem, 4vw, 2.6rem); width: auto; display: block; }
     .sub { max-width: 60ch; margin: 0 0 1.5rem; color: var(--muted); font-size: 1.05rem; }
     .meta { display: flex; align-items: baseline; gap: 1.25rem; flex-wrap: wrap; font-size: 0.85rem; }
     .meta .hint { color: var(--muted); }
