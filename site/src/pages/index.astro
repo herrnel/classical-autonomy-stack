@@ -272,7 +272,7 @@ const entries = modules
         position: static; max-height: none; overflow: visible; top: auto;
       }
       :global(html.reading) .has-selection .panel {
-        --jw: 44rem;            /* journal column width */
+        --jw: 50rem;            /* journal column width */
         flex: none;
         width: var(--jw);
         margin-left: auto;      /* centre the journal on screen */
@@ -283,10 +283,10 @@ const entries = modules
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
-        left: 4.5rem;
-        /* end 3.5rem to the left of the journal's left edge (journal is 44rem,
-           so its left edge is at 50% - 22rem) */
-        right: calc(50% + 22rem + 3.5rem);
+        left: 5rem;
+        /* end 6rem to the left of the journal's left edge (journal is 50rem,
+           so its left edge is at 50% - 25rem) */
+        right: calc(50% + 25rem + 6rem);
         flex: none; width: auto; max-width: none;
         overflow-y: auto;
         overscroll-behavior: contain;
@@ -301,7 +301,7 @@ const entries = modules
     .close:hover { border-color: var(--accent); color: var(--accent); }
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
     /* Rendered Markdown journal body (Shiki/markdown HTML has no scope id, so use :global) */
-    .prose { max-width: 75ch; font-family: Georgia, 'Times New Roman', serif; }
+    .prose { max-width: 82ch; font-family: Georgia, 'Times New Roman', serif; }
     .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; color: var(--accent-2); }
     .prose :global(p) { margin: 0 0 1rem; color: var(--prose); line-height: 1.7; }
     .prose :global(:not(pre) > code) { background: transparent; border: 0; padding: 0.05em 0.15em; font-size: 0.85em; color: var(--accent); }
