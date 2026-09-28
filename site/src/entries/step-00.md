@@ -7,6 +7,12 @@ image: "timeline/step-0.svg"
 summary: "My goal was to turn my PiCar-X into an autonomous system whose, perception, work representation, planning, and control are modules I can explain and debug myself"
 ---
 
+
+<figure class="wrap-right">
+  <img src="/classical-autonomy-stack/timeline/step-0.svg" alt="Vehicle interface sketch">
+  <figcaption>The three-verb Vehicle contract.</figcaption>
+</figure>
+
 This was my first *real hands-on experience* with a robot in many years so please enjoy my baby steps. I had previosly tried creating an autonomy stack for a drone inside of gazebo but sadly went down a rabbit hole of never ending learning became one of those half finished project people are always talking about. I learned a *ton*, what was a bit disappointing was not to having a finished project. 
 
 Therefore to make this new project enjoyable and feasible, I decided to write some clear goals. 
