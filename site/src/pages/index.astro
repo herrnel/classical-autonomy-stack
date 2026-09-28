@@ -92,6 +92,10 @@ const entries = modules
     <p>Built with <a href="https://astro.build">Astro</a> · Deployed on GitHub Pages</p>
   </footer>
 
+  <div class="lightbox" id="lightbox" hidden>
+    <img alt="" />
+  </div>
+
   <script>
     const workspace = document.getElementById('workspace')!;
     const root = document.documentElement;
@@ -141,8 +145,26 @@ const entries = modules
       })
     );
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') select(null);
+      if (e.key !== 'Escape') return;
+      if (!lightbox.hidden) closeLightbox();
+      else select(null);
     });
+
+    // ---- Lightbox: click any journal image to enlarge ----
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImg = lightbox.querySelector('img') as HTMLImageElement;
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxImg.removeAttribute('src');
+    }
+    workspace.querySelectorAll<HTMLImageElement>('.prose img').forEach((img) =>
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.hidden = false;
+      })
+    );
+    lightbox.addEventListener('click', closeLightbox);
 
     // Open the most recent entry by default (cards are newest-first)
     select(cards[0]?.dataset.id ?? null);
@@ -251,9 +273,9 @@ const entries = modules
     .prose h2, .prose h3 { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; }
     .prose p { margin: 0 0 1rem; color: #3d444d; line-height: 1.7; }
     .prose p > code, .prose li > code { font-size: 0.82rem; }
-    .prose pre { margin: 0 0 1.25rem; padding: 1rem 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
-    .prose pre code { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.65; }
-    .prose img { width: 100%; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0 0 0.4rem; }
+    .prose pre { margin: 0 0 1.25rem; padding: 0.9rem 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+    .prose pre code { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.45; }
+    .prose img { max-width: 360px; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0.25rem auto 0.4rem; cursor: zoom-in; }
     /* An italic line right after an image acts as its caption */
     .prose img + em, .prose p > em:only-child { display: block; font-size: 0.8rem; font-style: normal; color: var(--muted); text-align: center; margin: 0 0 1.25rem; }
     .prose ul, .prose ol { color: #3d444d; line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
@@ -306,5 +328,10 @@ const entries = modules
     @media (max-width: 560px) { .jump-controls { left: 0.75rem; bottom: 0.75rem; } }
 
     footer { padding: 2.5rem 0; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
+
+    /* ---- Lightbox (click any journal image to enlarge) ---- */
+    .lightbox { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 2rem; background: rgba(13, 17, 23, 0.82); cursor: zoom-out; }
+    .lightbox[hidden] { display: none; }
+    .lightbox img { max-width: 95vw; max-height: 92vh; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
   </style>
 </Layout>
