@@ -437,7 +437,9 @@ const items = modules
       display: flex; flex-direction: column; gap: 0.55rem;
       position: fixed; left: 1rem; top: 50%; transform: translateY(-50%);
       z-index: 25;
+      transition: opacity 0.6s ease;
     }
+    :global(html.reading.timeline-hidden) .mini { opacity: 0; pointer-events: none; }
     .mini-item {
       position: relative; width: 20px; height: 9px; padding: 0;
       border: 1px solid var(--border); border-radius: 5px;
