@@ -94,6 +94,28 @@ const items = modules
     </div>
   </div>
 
+  <script is:inline>
+    // Restore the saved reading state before first paint to avoid a flash of
+    // the full timeline / newest card on refresh.
+    (function () {
+      var saved = localStorage.getItem('selectedStep');
+      if (saved === '__none__') return; // was on the full timeline
+      var card = saved ? document.querySelector('.card[data-id="' + saved + '"]') : null;
+      if (!card) { card = document.querySelector('.card'); } // default: newest
+      if (!card) return;
+      var id = card.getAttribute('data-id');
+      document.documentElement.classList.add('reading');
+      var ws = document.getElementById('workspace');
+      if (ws) ws.classList.add('has-selection');
+      document.querySelectorAll('[data-id="' + id + '"]').forEach(function (el) {
+        if (el.classList.contains('card') || el.classList.contains('detail') || el.classList.contains('mini-item')) {
+          el.classList.add('active');
+        }
+      });
+      card.setAttribute('aria-pressed', 'true');
+    })();
+  </script>
+
   <div class="jump-controls">
     <a class="jump" href="#beginning">↓ Jump to the beginning</a>
   </div>
