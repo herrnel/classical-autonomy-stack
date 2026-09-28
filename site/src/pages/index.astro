@@ -24,13 +24,13 @@ const items = modules
 const showJump = items.length >= 8;
 ---
 
-<Layout title="GaussianShark › Classical Autonomy Stack">
+<Layout title="GaussianShark » Classical Autonomy Stack">
   <header class="masthead">
     <div class="container">
       <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
       <div class="brand">
         <img class="logo" src={`${base}logo.svg`} alt="" />
-        <h1>GaussianShark › Classical Autonomy Stack</h1>
+        <h1>GaussianShark<span class="sep">»</span>Classical Autonomy Stack</h1>
       </div>
       <p class="sub">
         A build log for a transparent, hardware-agnostic autonomy stack —
@@ -190,7 +190,7 @@ const showJump = items.length >= 8;
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
       localStorage.setItem('selectedStep', id ?? '__none__');
       const title = on ? document.querySelector(`.detail[data-id="${id}"] .detail-title`)?.textContent : null;
-      document.title = title ? title : 'GaussianShark › Classical Autonomy Stack';
+      document.title = title ? title : 'GaussianShark » Classical Autonomy Stack';
       if (on) revealTimeline();
     }
 
@@ -306,6 +306,7 @@ const showJump = items.length >= 8;
     h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
     .brand { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1rem; }
     .brand h1 { margin: 0; }
+    .brand .sep { margin: 0 0.6rem; opacity: 0.6; }
     .logo { height: clamp(2rem, 4vw, 2.6rem); width: auto; display: block; }
     .sub { max-width: 60ch; margin: 0 0 1.5rem; color: var(--muted); font-size: 1.05rem; }
     .meta { display: flex; align-items: baseline; gap: 1.25rem; flex-wrap: wrap; font-size: 0.85rem; }
