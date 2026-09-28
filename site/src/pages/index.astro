@@ -336,7 +336,9 @@ const items = modules
     .prose :global(img) { max-width: 360px; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0.25rem auto 0.4rem; cursor: zoom-in; }
     /* An italic line right after an image acts as its caption */
     .prose :global(img + em), .prose :global(p > em:only-child) { display: block; font-size: 0.8rem; font-style: normal; color: var(--muted); text-align: center; margin: 0 0 1.25rem; }
-    .prose :global(ul), .prose :global(ol) { color: var(--prose); line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
+    .prose :global(ul), .prose :global(ol) { color: var(--prose); line-height: 1.65; margin: 0 0 1rem; padding-left: 1.6rem; margin-left: 1.25rem; }
+    .prose :global(li) { margin: 0.2rem 0; }
+    .prose :global(li > ul), .prose :global(li > ol) { margin: 0.25rem 0 0.4rem; }
     .prose :global(a) { color: var(--accent); }
     /* Blockquotes ( > lines ) get a clean accent treatment */
     .prose :global(blockquote) { margin: 0 0 1.25rem; padding: 0.6rem 1rem; border-left: 3px solid var(--accent); background: var(--note-bg); color: var(--prose); border-radius: 0 6px 6px 0; clear: both; }

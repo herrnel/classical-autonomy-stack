@@ -1,7 +1,7 @@
 ---
 step: 0
-date: "2025 · Step 00"
-title: "Setting Clear Learning Goals"
+date: "9/27/2025 · Step 00"
+title: "Not Boiling the Ocean"
 tag: "base/"
 image: "timeline/step-0.svg"
 summary: "My goal was to turn my PiCar-X into an autonomous system whose, perception, work representation, planning, and control are modules I can explain and debug myself"
