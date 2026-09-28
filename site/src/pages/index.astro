@@ -14,7 +14,6 @@ const entries = modules
 
 <Layout title="Classical Autonomy Stack">
   <header class="masthead">
-    <button class="view-full" type="button">View full timeline ↗</button>
     <div class="container">
       <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
       <h1>Classical Autonomy Stack</h1>
@@ -26,6 +25,7 @@ const entries = modules
       <nav class="meta">
         <a href="https://github.com/herrnel/classical-autonomy-stack">Source ↗</a>
         <span class="hint">Select a card to open its journal entry</span>
+        <button class="view-full" type="button">View full timeline ↗</button>
         <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
       </nav>
     </div>
@@ -185,16 +185,21 @@ const entries = modules
 
   <style>
     .masthead { padding: 4.5rem 0 3rem; border-bottom: 1px solid var(--border); }
-    /* In reading mode the header pins to the top and the timeline scrolls under it */
+    /* In reading mode the header is a thin bar: small title on the left,
+       links inline on the right; the timeline scrolls under it */
     :global(html.reading) .masthead {
       position: sticky; top: 0; z-index: 30;
       background: var(--bg);
-      padding: 1.5rem 0;
+      padding: 0.4rem 0;
     }
     :global(html.reading) .masthead .sub,
-    :global(html.reading) .masthead .kicker { display: none; }
-    /* Top-corner control to close the journal and view all cards */
-    .view-full { display: none; position: absolute; top: 1rem; right: 1.5rem; z-index: 31; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 0.45rem 0.8rem; cursor: pointer; }
+    :global(html.reading) .masthead .kicker,
+    :global(html.reading) .masthead .hint { display: none; }
+    :global(html.reading) .masthead .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    :global(html.reading) .masthead h1 { font-size: 1rem; margin: 0; }
+    :global(html.reading) .masthead .meta { margin: 0; }
+    /* Control to close the journal and view all cards */
+    .view-full { display: none; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; }
     .view-full:hover { border-color: var(--accent); color: var(--accent); }
     :global(html.reading) .view-full { display: inline-block; }
     .kicker { margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem; color: var(--muted); }
