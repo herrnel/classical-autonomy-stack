@@ -323,8 +323,9 @@ const showJump = items.length >= 8;
     .row:last-child .rail::before { display: none; }
     .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); z-index: 1; transition: background 0.3s ease; }
     /* Progress fill up to the currently selected step */
-    .row.filled .rail::before { background: var(--accent); width: 3px; }
+    .row.filled .rail::before { background: var(--accent); width: 3px; top: 0.95rem; }
     .row.past .dot { background: var(--accent); }
+    .row.filled .num { display: none; }  /* hide step number once a step is reached */
     .num { margin-top: 0.5rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); }
 
     /* ---- Card ---- */
