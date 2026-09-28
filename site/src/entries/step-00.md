@@ -63,6 +63,6 @@ Here is my little road map:
 3. **Create a world representation**
     - Detect road boundaries and obstacles, but output an intermediate free-space or local map rather than steering directly from pixels. 
 4. **Plan, control, and quantify performance**
-    - 
+    - Implement a planner and path follower. Measure completion ratee, collisions, boundary violations, and lateral tracking error across repeated runs.
 
 

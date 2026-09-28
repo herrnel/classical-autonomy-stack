@@ -173,7 +173,35 @@ const items = modules
       details.forEach((d) => d.classList.toggle('active', d.dataset.id === id));
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
       localStorage.setItem('selectedStep', id ?? '__none__');
+      if (on) revealTimeline();
     }
+
+    // ---- Auto-hide the main timeline while reading (mini-rail stays) ----
+    const timelineEl = document.querySelector<HTMLElement>('.timeline');
+    let hideTimer: number | undefined;
+    const SHOW_ZONE = 320; // px from the left edge that re-reveals the timeline
+    function revealTimeline() {
+      if (!root.classList.contains('reading')) return;
+      root.classList.remove('timeline-hidden');
+      clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => root.classList.add('timeline-hidden'), 2600);
+    }
+    function hideTimelineNow() {
+      if (root.classList.contains('reading')) root.classList.add('timeline-hidden');
+    }
+    // Reveal when the mouse nears the left edge / hovers the timeline
+    document.addEventListener('mousemove', (e) => {
+      if (e.clientX <= SHOW_ZONE) revealTimeline();
+    });
+    timelineEl?.addEventListener('mouseenter', () => {
+      root.classList.remove('timeline-hidden');
+      clearTimeout(hideTimer);
+    });
+    timelineEl?.addEventListener('mouseleave', () => {
+      hideTimer = window.setTimeout(() => root.classList.add('timeline-hidden'), 2600);
+    });
+    // Hide as soon as the reader scrolls
+    window.addEventListener('scroll', hideTimelineNow, { passive: true });
 
     cards.forEach((c) =>
       c.addEventListener('click', () => {
@@ -340,7 +368,10 @@ const items = modules
         overflow-y: auto;
         overscroll-behavior: contain;
         padding-right: 0.5rem;
+        transition: opacity 0.6s ease;
       }
+      /* Faded/hidden while reading & scrolling (mini-rail is unaffected) */
+      :global(html.reading.timeline-hidden) .has-selection .timeline { opacity: 0; pointer-events: none; }
       /* Compact cards while reading: no image, tighter, left-aligned */
       :global(html.reading) .has-selection .row { grid-template-columns: 1.2rem 1fr; gap: 0.6rem; padding-bottom: 1.1rem; width: 17rem; max-width: 100%; margin: 0; }
       :global(html.reading) .has-selection .card .img { display: none; }
