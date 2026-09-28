@@ -152,8 +152,8 @@ const items = modules
 
     cards.forEach((c) =>
       c.addEventListener('click', () => {
-        const already = c.classList.contains('active');
-        select(already ? null : c.dataset.id ?? null);
+        if (c.classList.contains('active')) return; // clicking the current card does nothing
+        select(c.dataset.id ?? null);
       })
     );
     workspace.querySelectorAll<HTMLButtonElement>('.close').forEach((b) =>
