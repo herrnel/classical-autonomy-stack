@@ -208,7 +208,7 @@ const entries = modules
     /* ---- Workspace: timeline (left) + journal panel (right) ---- */
     .workspace-wrap { padding: 0 2rem; }
     /* Reading mode leaves room on the left for the condensed rail */
-    :global(html.reading) .workspace-wrap { padding-left: 4.5rem; }
+    :global(html.reading) .workspace-wrap { padding-left: 2rem; }
     .workspace {
       display: flex;
       align-items: flex-start;
@@ -264,31 +264,41 @@ const entries = modules
       background: transparent;
       max-height: calc(100vh - var(--header-h, 0px) - 2rem); overflow-y: auto;
     }
-    /* In reading mode the journal is pinned like the header and never scrolls */
+    /* Reading mode (desktop): the journal is normal page content (the page/
+       background scrolls it), while the timeline is a fixed box that scrolls
+       its own content independently. */
     @media (min-width: 821px) {
       :global(html.reading) .panel-inner {
+        position: static; max-height: none; overflow: visible; top: auto;
+      }
+      :global(html.reading) .panel {
+        flex: none;
+        width: min(72ch, 46rem);
+        margin-left: auto;      /* journal sits on the right half */
+        margin-right: 2rem;
+        opacity: 1;
+      }
+      :global(html.reading) .timeline {
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
-        left: calc(600px + 7.5rem);   /* wrap padding-left (4.5rem) + timeline (600) + gap (3rem) */
-        right: 2rem;
         bottom: 1rem;
-        max-height: none;
+        left: 4.5rem;
+        right: calc(2rem + min(72ch, 46rem) + 3rem);
+        flex: none; width: auto; max-width: none;
         overflow-y: auto;
         overscroll-behavior: contain;
+        padding-right: 0.5rem;
       }
     }
     /* On wide screens the journal is centred on the screen and the timeline
        fills whatever space is left on the left side */
     @media (min-width: 1200px) {
-      :global(html.reading) .panel-inner {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: min(72ch, 46rem);
+      :global(html.reading) .panel {
+        margin-left: auto;
+        margin-right: auto;     /* centre the journal on screen */
       }
       :global(html.reading) .timeline {
-        flex: 0 0 calc(50vw - 36ch - 10.5rem);
-        max-width: none;
+        right: calc(50% + (min(72ch, 46rem)) / 2 + 3.5rem);
       }
     }
     .detail { display: none; padding: 0.25rem 0.5rem 2rem 0; }
