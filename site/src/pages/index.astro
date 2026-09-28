@@ -2,97 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL;
 
-// Each timeline entry has a card (left rail) and a rich journal made of
-// blocks. Supported block types: 'p' (paragraph), 'h' (subheading),
-// 'code' (with a language label), 'img' and 'plot' (figure with caption).
-const timeline = [
-  {
-    step: 1,
-    date: '2025 · Step 01',
-    title: 'Defining the Vehicle interface',
-    tag: 'base/',
-    image: 'timeline/step-1.svg',
-    summary:
-      'An abstract Vehicle contract — command(), stop(), observe() — plus an Observation data model.',
-    blocks: [
-      { type: 'p', text: "I wanted to start from the smallest possible contract instead of a hardware SDK. If I could describe a robot as just three verbs — command it, stop it, observe it — then every planner and controller I write later stays honest and portable." },
-      { type: 'h', text: 'The contract' },
-      { type: 'code', lang: 'base/vehicle.py', text: `from abc import ABC, abstractmethod
-from observation import Observation
+// Content lives in one Markdown file per step under src/entries/.
+// Edit those files to change the site — no code changes needed.
+const modules = Object.values(
+  import.meta.glob('../entries/*.md', { eager: true })
+) as any[];
 
-class Vehicle(ABC):
-    @abstractmethod
-    def command(self, velocity_mps: float, steering_rad: float):
-        """Commands must contain velocity_mps and steering_rad"""
-
-    @abstractmethod
-    def stop(self): ...
-
-    @abstractmethod
-    def observe(self) -> Observation: ...` },
-      { type: 'p', text: "Observation was the harder call: I kept it to a camera image, a front range reading and a timestamp. No premature fields. It felt slow to write so little, but this is the seam the rest of the project hangs on." },
-      { type: 'code', lang: 'base/observation.py', text: `class Observation:
-    def __init__(self, image, front_range_m, timestamp):
-        self.__image = image
-        self.__front_range_m = front_range_m
-        self.__timestamp = timestamp` },
-    ],
-  },
-  {
-    step: 2,
-    date: '2025 · Step 02',
-    title: 'The PiCar-X driver',
-    tag: 'robots/',
-    image: 'timeline/step-2.svg',
-    summary:
-      'A concrete adapter turning velocity + steering-angle commands into SunFounder servo and motor calls.',
-    blocks: [
-      { type: 'p', text: "This is where the abstraction met a real, noisy machine. The PiCar-X thinks in servo values and motor duty cycles; my interface speaks m/s and radians." },
-      { type: 'h', text: 'Translating units at the edge' },
-      { type: 'code', lang: 'robots/picarx.py', text: `class PiCarX(Vehicle):
-    def command(self, velocity_mps, steering_rad):
-        self.px.forward(velocity_mps)
-        self.set_steering_angle(steering_rad)
-
-    def set_steering_angle(self, steering_rad):
-        steering_deg = math.degrees(steering_rad)
-        sunfounder_angle = -steering_deg          # sign flip
-        self.px.set_dir_servo_angle(sunfounder_angle)` },
-      { type: 'p', text: "I resisted the urge to 'fix' the vendor library and instead wrote a thin translation layer, so the mess stays quarantined in one file and the rest of the stack never sees it." },
-      { type: 'img', src: 'timeline/step-2.svg', caption: 'PiCar-X on the bench during driver bring-up.' },
-    ],
-  },
-  {
-    step: 3,
-    date: '2025 · Step 03',
-    title: 'Calibrating velocity',
-    tag: 'calibration_experiments/',
-    image: 'timeline/step-3.svg',
-    summary:
-      'A bench experiment mapping commanded motor speed to real-world metres per second.',
-    blocks: [
-      { type: 'p', text: "Nothing humbles you like a tape measure. I commanded fixed speeds, timed the car over a known distance, and the numbers were not linear the way I'd hoped." },
-      { type: 'plot', src: 'timeline/plot-velocity.svg', caption: 'Commanded speed vs. measured m/s — clearly non-linear at the low end.' },
-      { type: 'p', text: "I stopped trying to derive the mapping and just measured it. This entry is really about a mindset shift: the code is only as trustworthy as the last time I validated it against the floor of my apartment." },
-    ],
-  },
-  {
-    step: 4,
-    date: '2025 · Step 04',
-    title: 'Calibrating steering',
-    tag: 'calibration_experiments/',
-    image: 'timeline/step-4.svg',
-    summary:
-      'Mapping servo angle to an actual steering radius so a commanded turn matches reality.',
-    blocks: [
-      { type: 'p', text: "Steering was subtler than velocity because the error compounds over a path, not a point. A few degrees of servo bias becomes a slow drift into the wall." },
-      { type: 'plot', src: 'timeline/plot-steering.svg', caption: 'Measured arc vs. commanded servo angle (dashed = ideal linear response).' },
-      { type: 'p', text: "I built a small validation script and watched the difference between what I asked for and what the geometry did. Getting this repeatable — same command, same arc — mattered more to me than getting it perfectly centred." },
-    ],
-  },
-];
-
-const entries = [...timeline].reverse(); // newest first
+const entries = modules
+  .sort((a, b) => b.frontmatter.step - a.frontmatter.step); // newest first
 ---
 
 <Layout title="Classical Autonomy Stack">
@@ -116,28 +33,28 @@ const entries = [...timeline].reverse(); // newest first
   <div class="workspace-wrap">
     <div class="workspace" id="workspace">
       <nav class="mini" aria-label="Condensed timeline">
-        {entries.map((entry) => (
-          <button class="mini-item" type="button" data-id={entry.step}>
-            <span class="mini-label">{String(entry.step).padStart(2, '0')} · {entry.title}</span>
+        {entries.map(({ frontmatter: f }) => (
+          <button class="mini-item" type="button" data-id={f.step}>
+            <span class="mini-label">{String(f.step).padStart(2, '0')} · {f.title}</span>
           </button>
         ))}
       </nav>
       <ol class="timeline">
-        {entries.map((entry, i) => (
+        {entries.map(({ frontmatter: f }, i) => (
           <li class="row" id={i === entries.length - 1 ? 'beginning' : undefined}>
             <div class="rail" aria-hidden="true">
               <span class="dot"></span>
-              <span class="num">{String(entry.step).padStart(2, '0')}</span>
+              <span class="num">{String(f.step).padStart(2, '0')}</span>
             </div>
-            <button class="card" type="button" id={`card-${entry.step}`} data-id={entry.step} aria-pressed="false">
-              <div class="img" style={`background-image:url(${base}${entry.image})`}></div>
+            <button class="card" type="button" id={`card-${f.step}`} data-id={f.step} aria-pressed="false">
+              <div class="img" style={`background-image:url(${base}${f.image})`}></div>
               <div class="body">
                 <div class="tagline">
-                  <span class="date">{entry.date}</span>
-                  <code class="tag">{entry.tag}</code>
+                  <span class="date">{f.date}</span>
+                  <code class="tag">{f.tag}</code>
                 </div>
-                <h2>{entry.title}</h2>
-                <p>{entry.summary}</p>
+                <h2>{f.title}</h2>
+                <p>{f.summary}</p>
                 <span class="open-hint">Open journal →</span>
               </div>
             </button>
@@ -147,33 +64,19 @@ const entries = [...timeline].reverse(); // newest first
 
       <aside class="panel" aria-live="polite">
         <div class="panel-inner">
-          {entries.map((entry) => (
-            <article class="detail" data-id={entry.step}>
+          {entries.map(({ frontmatter: f, Content }) => (
+            <article class="detail" data-id={f.step}>
               <div class="detail-head">
                 <div>
-                  <span class="date">{entry.date}</span>
-                  <code class="tag">{entry.tag}</code>
+                  <span class="date">{f.date}</span>
+                  <code class="tag">{f.tag}</code>
                 </div>
                 <button class="close" type="button" aria-label="Close journal">Close ✕</button>
               </div>
-              <h2 class="detail-title">{entry.title}</h2>
-              {entry.blocks.map((b) => {
-                if (b.type === 'h') return <h3 class="b-h">{b.text}</h3>;
-                if (b.type === 'p') return <p class="b-p">{b.text}</p>;
-                if (b.type === 'code') return (
-                  <figure class="b-code">
-                    <figcaption>{b.lang}</figcaption>
-                    <pre><code>{b.text}</code></pre>
-                  </figure>
-                );
-                // img or plot
-                return (
-                  <figure class="b-fig">
-                    <img src={`${base}${b.src}`} alt={b.caption} loading="lazy" />
-                    <figcaption>{b.caption}</figcaption>
-                  </figure>
-                );
-              })}
+              <h2 class="detail-title">{f.title}</h2>
+              <div class="prose">
+                <Content />
+              </div>
             </article>
           ))}
         </div>
@@ -344,15 +247,17 @@ const entries = [...timeline].reverse(); // newest first
     .close { border: 1px solid var(--border); background: var(--panel); color: var(--muted); font: inherit; font-size: 0.78rem; padding: 0.3rem 0.6rem; border-radius: 6px; cursor: pointer; }
     .close:hover { border-color: var(--accent); color: var(--accent); }
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
-    .b-h { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; }
-    .b-p { margin: 0 0 1rem; color: #3d444d; line-height: 1.7; }
-    .b-code { margin: 0 0 1.25rem; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-    .b-code figcaption { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); padding: 0.45rem 0.9rem; background: #f6f8fa; border-bottom: 1px solid var(--border); }
-    .b-code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: #f6f8fa; }
-    .b-code pre code { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.65; color: #1f2328; }
-    .b-fig { margin: 0 0 1.25rem; }
-    .b-fig img { width: 100%; border: 1px solid var(--border); border-radius: 6px; display: block; }
-    .b-fig figcaption { margin-top: 0.5rem; font-size: 0.8rem; color: var(--muted); text-align: center; }
+    /* Rendered Markdown journal body */
+    .prose h2, .prose h3 { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; }
+    .prose p { margin: 0 0 1rem; color: #3d444d; line-height: 1.7; }
+    .prose p > code, .prose li > code { font-size: 0.82rem; }
+    .prose pre { margin: 0 0 1.25rem; padding: 1rem 1.1rem; overflow-x: auto; background: #f6f8fa; border: 1px solid var(--border); border-radius: 6px; }
+    .prose pre code { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.65; color: #1f2328; }
+    .prose img { width: 100%; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0 0 0.4rem; }
+    /* An italic line right after an image acts as its caption */
+    .prose img + em, .prose p > em:only-child { display: block; font-size: 0.8rem; font-style: normal; color: var(--muted); text-align: center; margin: 0 0 1.25rem; }
+    .prose ul, .prose ol { color: #3d444d; line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
+    .prose a { color: var(--accent); }
 
     /* ---- Responsive: panel becomes a full overlay ---- */
     @media (max-width: 820px) {
