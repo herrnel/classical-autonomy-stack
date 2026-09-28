@@ -277,6 +277,20 @@ const entries = modules
         overscroll-behavior: contain;
       }
     }
+    /* On wide screens the journal is centred on the screen and the timeline
+       fills whatever space is left on the left side */
+    @media (min-width: 1200px) {
+      :global(html.reading) .panel-inner {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: min(72ch, 46rem);
+      }
+      :global(html.reading) .timeline {
+        flex: 0 0 calc(50vw - 36ch - 7.5rem);
+        max-width: none;
+      }
+    }
     .detail { display: none; padding: 0.25rem 0.5rem 2rem 0; }
     .detail.active { display: block; }
     .detail-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
