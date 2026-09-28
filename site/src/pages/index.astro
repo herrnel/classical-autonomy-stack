@@ -97,6 +97,7 @@ const entries = [...timeline].reverse(); // newest first
 
 <Layout title="Classical Autonomy Stack">
   <header class="masthead">
+    <button class="view-full" type="button">View full timeline ↗</button>
     <div class="container">
       <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
       <h1>Classical Autonomy Stack</h1>
@@ -114,6 +115,13 @@ const entries = [...timeline].reverse(); // newest first
 
   <div class="workspace-wrap">
     <div class="workspace" id="workspace">
+      <nav class="mini" aria-label="Condensed timeline">
+        {entries.map((entry) => (
+          <button class="mini-item" type="button" data-id={entry.step}>
+            <span class="mini-label">{String(entry.step).padStart(2, '0')} · {entry.title}</span>
+          </button>
+        ))}
+      </nav>
       <ol class="timeline">
         {entries.map((entry, i) => (
           <li class="row" id={i === entries.length - 1 ? 'beginning' : undefined}>
@@ -188,6 +196,8 @@ const entries = [...timeline].reverse(); // newest first
     const mast = document.querySelector<HTMLElement>('.masthead')!;
     const cards = workspace.querySelectorAll<HTMLButtonElement>('.card');
     const details = workspace.querySelectorAll<HTMLElement>('.detail');
+    const miniItems = workspace.querySelectorAll<HTMLButtonElement>('.mini-item');
+    const viewFull = document.querySelector<HTMLButtonElement>('.view-full')!;
     const currentJump = document.querySelector<HTMLButtonElement>('.current-jump')!;
     let activeCard: HTMLButtonElement | null = null;
 
@@ -210,6 +220,7 @@ const entries = [...timeline].reverse(); // newest first
         if (isActive) activeCard = c;
       });
       details.forEach((d) => d.classList.toggle('active', d.dataset.id === id));
+      miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
     }
 
     cards.forEach((c) =>
@@ -224,9 +235,16 @@ const entries = [...timeline].reverse(); // newest first
     currentJump.addEventListener('click', () =>
       activeCard?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     );
+    viewFull.addEventListener('click', () => select(null));
+    miniItems.forEach((m) =>
+      m.addEventListener('click', () => select(m.dataset.id ?? null))
+    );
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') select(null);
     });
+
+    // Open the most recent entry by default (cards are newest-first)
+    select(cards[0]?.dataset.id ?? null);
   </script>
 
   <style>
@@ -239,6 +257,10 @@ const entries = [...timeline].reverse(); // newest first
     }
     :global(html.reading) .masthead .sub,
     :global(html.reading) .masthead .kicker { display: none; }
+    /* Top-corner control to close the journal and view all cards */
+    .view-full { display: none; position: absolute; top: 1rem; right: 1.5rem; z-index: 31; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 0.45rem 0.8rem; cursor: pointer; }
+    .view-full:hover { border-color: var(--accent); color: var(--accent); }
+    :global(html.reading) .view-full { display: inline-block; }
     .kicker { margin: 0 0 1rem; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.72rem; color: var(--muted); }
     h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
     .sub { max-width: 60ch; margin: 0 0 1.5rem; color: var(--muted); font-size: 1.05rem; }
@@ -247,6 +269,8 @@ const entries = [...timeline].reverse(); // newest first
 
     /* ---- Workspace: timeline (left) + journal panel (right) ---- */
     .workspace-wrap { padding: 0 2rem; }
+    /* Reading mode leaves room on the left for the condensed rail */
+    :global(html.reading) .workspace-wrap { padding-left: 4.5rem; }
     .workspace {
       display: flex;
       align-items: flex-start;
@@ -307,7 +331,7 @@ const entries = [...timeline].reverse(); // newest first
       :global(html.reading) .panel-inner {
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
-        left: calc(600px + 5rem);   /* timeline column (600) + wrap padding (2rem) + gap (3rem) */
+        left: calc(600px + 7.5rem);   /* wrap padding-left (4.5rem) + timeline (600) + gap (3rem) */
         right: 2rem;
         bottom: 1rem;
         max-height: none;
@@ -343,6 +367,33 @@ const entries = [...timeline].reverse(); // newest first
     @media (max-width: 560px) {
       .row { grid-template-columns: 2rem 1fr; gap: 0.85rem; }
     }
+
+    /* ---- Condensed timeline rail (reading mode only) ---- */
+    .mini { display: none; }
+    :global(html.reading) .mini {
+      display: flex; flex-direction: column; gap: 0.55rem;
+      position: fixed; left: 1rem; top: calc(var(--header-h, 1.5rem) + 1.5rem);
+      z-index: 25;
+    }
+    .mini-item {
+      position: relative; width: 34px; height: 12px; padding: 0;
+      border: 1px solid var(--border); border-radius: 6px;
+      background: var(--border); cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, width 0.15s;
+    }
+    .mini-item:hover { background: var(--muted); }
+    .mini-item.active { background: var(--accent); border-color: var(--accent); }
+    .mini-label {
+      position: absolute; left: calc(100% + 0.5rem); top: 50%; transform: translateY(-50%);
+      white-space: nowrap; pointer-events: none;
+      background: var(--text); color: var(--bg);
+      font-size: 0.72rem; font-weight: 600;
+      padding: 0.3rem 0.55rem; border-radius: 5px;
+      opacity: 0; transition: opacity 0.15s;
+      box-shadow: 0 2px 8px rgba(31,35,40,0.18);
+    }
+    .mini-item:hover .mini-label,
+    .mini-item:focus-visible .mini-label { opacity: 1; }
 
     /* ---- Fixed jump controls (bottom-left) ---- */
     .jump-controls { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 20; display: flex; flex-direction: row; gap: 0.5rem; align-items: center; }
