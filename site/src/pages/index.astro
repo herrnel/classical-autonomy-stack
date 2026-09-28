@@ -199,7 +199,7 @@ const items = modules
     :global(html.reading) .masthead {
       position: sticky; top: 0; z-index: 30;
       background: var(--header-bg);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       padding: 0.4rem 0;
     }
     :global(html.reading) .masthead .sub,
@@ -293,7 +293,7 @@ const items = modules
         width: var(--jw);
         margin-left: auto;      /* centre the journal on screen */
         margin-right: auto;
-        transform: translateX(-70px);  /* shift the journal slightly left */
+        transform: translateX(-85px);  /* shift the journal slightly left */
         opacity: 1;
       }
       :global(html.reading) .has-selection .timeline {
@@ -324,8 +324,8 @@ const items = modules
     .read-time { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); }
     .close { border: 1px solid var(--border); background: var(--panel); color: var(--muted); font: inherit; font-size: 0.78rem; padding: 0.3rem 0.6rem; border-radius: 6px; cursor: pointer; }
     .close:hover { border-color: var(--accent); color: var(--accent); }
-    .detail-title { margin: 0 0 0.5rem; font-family: Georgia, 'Times New Roman', serif; font-size: 2.1rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
-    .detail-summary { margin: 0 0 1.5rem; font-family: Georgia, 'Times New Roman', serif; font-size: 1.05rem; font-style: italic; color: var(--muted); line-height: 1.5; max-width: 70ch; }
+    .detail-title { margin: 0 0 0.5rem; font-family: Georgia, 'Times New Roman', serif; font-size: 1.9rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+    .detail-summary { margin: 0 0 1.5rem; font-family: Georgia, 'Times New Roman', serif; font-size: 1.05rem; color: var(--text); line-height: 1.5; max-width: 70ch; }
     /* Rendered Markdown journal body (Shiki/markdown HTML has no scope id, so use :global) */
     .prose { max-width: 70ch; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; letter-spacing: 0.015em; -webkit-font-smoothing: antialiased; }
     .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1.05rem; font-weight: 650; color: var(--accent-2); clear: both; }
