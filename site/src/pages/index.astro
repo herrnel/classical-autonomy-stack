@@ -8,8 +8,16 @@ const modules = Object.values(
   import.meta.glob('../entries/*.md', { eager: true })
 ) as any[];
 
-const entries = modules
-  .sort((a, b) => b.frontmatter.step - a.frontmatter.step); // newest first
+function readingTime(mod: any): string {
+  const raw = typeof mod.rawContent === 'function' ? mod.rawContent() : (mod.compiledContent?.() ?? '');
+  const words = String(raw).trim().split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(words / 200)); // ~200 wpm
+  return `${mins} min read`;
+}
+
+const items = modules
+  .sort((a, b) => b.frontmatter.step - a.frontmatter.step) // newest first
+  .map((m) => ({ ...m.frontmatter, Content: m.Content, readTime: readingTime(m) }));
 ---
 
 <Layout title="Classical Autonomy Stack">
@@ -34,15 +42,15 @@ const entries = modules
   <div class="workspace-wrap">
     <div class="workspace" id="workspace">
       <nav class="mini" aria-label="Condensed timeline">
-        {entries.map(({ frontmatter: f }) => (
+        {items.map((f) => (
           <button class="mini-item" type="button" data-id={f.step}>
             <span class="mini-label">{String(f.step).padStart(2, '0')} · {f.title}</span>
           </button>
         ))}
       </nav>
       <ol class="timeline">
-        {entries.map(({ frontmatter: f }, i) => (
-          <li class="row" id={i === entries.length - 1 ? 'beginning' : undefined}>
+        {items.map((f, i) => (
+          <li class="row" id={i === items.length - 1 ? 'beginning' : undefined}>
             <div class="rail" aria-hidden="true">
               <span class="dot"></span>
               <span class="num">{String(f.step).padStart(2, '0')}</span>
@@ -65,20 +73,21 @@ const entries = modules
 
       <aside class="panel" aria-live="polite">
         <div class="panel-inner">
-          {entries.map(({ frontmatter: f, Content }) => (
+          {items.map((f) => {
+            const Content = f.Content;
+            return (
             <article class="detail" data-id={f.step}>
               <div class="detail-head">
-                <div>
-                  <span class="date">{f.date}</span>
-                  <code class="tag">{f.tag}</code>
-                </div>
+                <span class="read-time">{f.readTime}</span>
+                <span class="date">{f.date}</span>
               </div>
               <h2 class="detail-title">{f.title}</h2>
               <div class="prose">
                 <Content />
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </aside>
     </div>
@@ -310,6 +319,7 @@ const entries = modules
     .detail.active { display: block; }
     .detail-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
     .detail-head > div { display: flex; align-items: center; gap: 0.75rem; }
+    .read-time { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); }
     .close { border: 1px solid var(--border); background: var(--panel); color: var(--muted); font: inherit; font-size: 0.78rem; padding: 0.3rem 0.6rem; border-radius: 6px; cursor: pointer; }
     .close:hover { border-color: var(--accent); color: var(--accent); }
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
