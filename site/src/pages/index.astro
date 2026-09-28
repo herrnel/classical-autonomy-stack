@@ -186,6 +186,8 @@ const showJump = items.length >= 8;
       details.forEach((d) => d.classList.toggle('active', d.dataset.id === id));
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
       localStorage.setItem('selectedStep', id ?? '__none__');
+      const title = on ? document.querySelector(`.detail[data-id="${id}"] .detail-title`)?.textContent : null;
+      document.title = title ? `${title} · Classical Autonomy Stack` : 'Classical Autonomy Stack';
       if (on) revealTimeline();
     }
 

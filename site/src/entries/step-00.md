@@ -4,7 +4,7 @@ date: "9/27/2025 · Step 00"
 title: "Not Boiling the Ocean"
 tag: "base/"
 image: "timeline/step-0.svg"
-summary: "Why is project planning so important? Especially for Robotics?"
+summary: "Why is project planning so important especially for robotics?"
 ---
 
 
