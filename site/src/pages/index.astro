@@ -18,6 +18,10 @@ function readingTime(mod: any): string {
 const items = modules
   .sort((a, b) => b.frontmatter.step - a.frontmatter.step) // newest first
   .map((m) => ({ ...m.frontmatter, Content: m.Content, readTime: readingTime(m) }));
+
+// Only show the "jump to the beginning" button once there are enough steps
+// that scrolling the timeline actually becomes necessary.
+const showJump = items.length >= 8;
 ---
 
 <Layout title="Classical Autonomy Stack">
@@ -118,9 +122,11 @@ const items = modules
     })();
   </script>
 
-  <div class="jump-controls">
-    <a class="jump" href="#beginning">↓ Jump to the beginning</a>
-  </div>
+  {showJump && (
+    <div class="jump-controls">
+      <a class="jump" href="#beginning">↓ Jump to the beginning</a>
+    </div>
+  )}
 
   <footer class="container">
     <p>Built with <a href="https://astro.build">Astro</a> · Deployed on GitHub Pages</p>
@@ -164,11 +170,18 @@ const items = modules
       root.classList.toggle('reading', on);
       if (on) setHeaderVar();
       activeCard = null;
+      const cur = id !== null ? Number(id) : null;
       cards.forEach((c) => {
         const isActive = c.dataset.id === id;
         c.classList.toggle('active', isActive);
         c.setAttribute('aria-pressed', String(isActive));
         if (isActive) activeCard = c;
+        const step = Number(c.dataset.id);
+        const row = c.closest('.row');
+        if (row) {
+          row.classList.toggle('filled', cur !== null && step <= cur); // fill line up to current
+          row.classList.toggle('past', cur !== null && step < cur);     // fill dot for older steps
+        }
       });
       details.forEach((d) => d.classList.toggle('active', d.dataset.id === id));
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
@@ -306,9 +319,12 @@ const items = modules
     .row { display: grid; grid-template-columns: 3.25rem 1fr; gap: 1.25rem; padding-bottom: 2.5rem; scroll-margin-top: calc(var(--header-h, 2rem) + 1.5rem); }
     .row:last-child { padding-bottom: 0; }
     .rail { position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 0.4rem; }
-    .rail::before { content: ''; position: absolute; top: 1.4rem; bottom: -2.5rem; width: 1px; background: var(--border); }
+    .rail::before { content: ''; position: absolute; top: 1.4rem; bottom: -2.5rem; width: 1px; background: var(--border); transition: background 0.3s ease; }
     .row:last-child .rail::before { display: none; }
-    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); z-index: 1; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); z-index: 1; transition: background 0.3s ease; }
+    /* Progress fill up to the currently selected step */
+    .row.filled .rail::before { background: var(--accent); width: 2px; }
+    .row.past .dot { background: var(--accent); }
     .num { margin-top: 0.5rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; color: var(--muted); }
 
     /* ---- Card ---- */
@@ -461,7 +477,8 @@ const items = modules
     .mini-item:focus-visible .mini-label { opacity: 1; }
 
     /* ---- Fixed jump controls (bottom-left) ---- */
-    .jump-controls { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 20; display: flex; flex-direction: row; gap: 0.5rem; align-items: center; }
+    .jump-controls { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 20; display: flex; flex-direction: row; gap: 0.5rem; align-items: center; transition: opacity 0.6s ease; }
+    :global(html.reading.timeline-hidden) .jump-controls { opacity: 0; pointer-events: none; }
     .jump { padding: 0.55rem 0.9rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 2px 8px rgba(31,35,40,0.08); cursor: pointer; }
     .jump:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
     @media (max-width: 560px) { .jump-controls { left: 0.75rem; bottom: 0.75rem; } }
