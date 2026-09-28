@@ -7,10 +7,6 @@ image: "timeline/step-1.svg"
 summary: "An abstract Vehicle contract — command(), stop(), observe() — plus an Observation data model."
 ---
 
-<figure class="wrap-right">
-  <img src="/classical-autonomy-stack/timeline/step-1.svg" alt="Vehicle interface sketch">
-  <figcaption>The three-verb Vehicle contract.</figcaption>
-</figure>
 
 I wanted to start from the smallest possible contract instead of a hardware
 SDK. If I could describe a robot as just three verbs — command it, stop it,

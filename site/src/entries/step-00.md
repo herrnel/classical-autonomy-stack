@@ -9,7 +9,7 @@ summary: "My goal was to turn my PiCar-X into an autonomous system whose, percep
 
 
 <figure class="wrap-right">
-  <img src="/classical-autonomy-stack/timeline/step-0.svg" alt="Vehicle interface sketch">
+  <img src="/classical-autonomy-stack/timeline/step-1.svg" alt="Vehicle interface sketch">
   <figcaption>The three-verb Vehicle contract.</figcaption>
 </figure>
 
