@@ -7,8 +7,9 @@
 
 set -euo pipefail
 
-# Move to the repo root (directory this script lives in)
-cd "$(dirname "$0")"
+# Move to the repo root (this script lives in <repo>/scripts/).
+# realpath resolves symlinks, so it works when invoked via ~/.local/bin too.
+cd "$(dirname "$(realpath "$0")")/.."
 
 # Join all arguments into the commit message, or use a timestamp default
 if [ "$#" -gt 0 ]; then
