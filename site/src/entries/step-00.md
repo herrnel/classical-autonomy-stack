@@ -13,7 +13,7 @@ summary: "My goal was to turn my PiCar-X into an autonomous system whose, percep
   <figcaption>The three-verb Vehicle contract.</figcaption>
 </figure>
 
-This was my first real hands-on experience with a robot in a very long time so please bear with me as I enthusiastically share potentially basic concepts as anyone discovering them for the first time would. 
+This was my first real hands-on experience with a robot in a very long time so please bear with me as I enthusiastically share potentially basic concepts. 
 
 I had previosly tried creating an autonomy stack for a drone inside of gazebo few months ago which ended up dead. I went down a rabbit hole of never ending learning and setup nonesense until it became one of those "half finished projects" people are always talking about. 
 
@@ -31,8 +31,10 @@ Therefore to make this new project enjoyable and feasible, I decided to write so
 - A*, RRT, path following
 - Feedback control and failure isolation
 
-You might be wondering how I came up with such a clear set of learning goals? Figuring out where to start has always been a real time killer for me when it comes to learning new skills. 
-Thankfully this time I already had a good idea of what I wanted to build so I just worked backwards to find the skills I needed. 
+You might be wondering how I came up with such a clear set of learning goals? 
+Thankfully this time I already had a good idea of what I wanted to build so all I did was work backwards from my a good begineer project to find the skills I needed. 
+
+In the past, a mentor or teacher would give you a small project using their vast knowldge on a specific subject. Today we have ChatGPT so I used that.
 
 **Project Goal**
 
