@@ -98,6 +98,7 @@ const items = modules
     // Restore the saved reading state before first paint to avoid a flash of
     // the full timeline / newest card on refresh.
     (function () {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       var saved = localStorage.getItem('selectedStep');
       if (saved === '__none__') return; // was on the full timeline
       var card = saved ? document.querySelector('.card[data-id="' + saved + '"]') : null;
@@ -113,6 +114,7 @@ const items = modules
         }
       });
       card.setAttribute('aria-pressed', 'true');
+      window.scrollTo(0, 0);
     })();
   </script>
 

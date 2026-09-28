@@ -19,7 +19,7 @@ I had previosly tried creating an autonomy stack for a drone inside of gazebo fe
 
 **I learned a ton, what was a bit disappointing was not to having a finished project.** 
 
-Therefore to make this new project enjoyable and feasible, I decided to write some clear goals. 
+Therefore, to make this new project enjoyable and feasible I decided to have some actual learning goals. 
 
 **Learning Goals**
 
