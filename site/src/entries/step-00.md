@@ -15,7 +15,9 @@ summary: "My goal was to turn my PiCar-X into an autonomous system whose, percep
 
 This was my first real hands-on experience with a robot in a very long time so please bear with me as I enthusiastically share potentially basic concepts as anyone discovering them for the first time would. 
 
-I had previosly tried creating an autonomy stack for a drone inside of gazebo but sadly went down a rabbit hole of never ending learning became one of those half finished project people are always talking about. I learned a *ton*, what was a bit disappointing was not to having a finished project. 
+I had previosly tried creating an autonomy stack for a drone inside of gazebo few months ago which ended up dead. I went down a rabbit hole of never ending learning and setup nonesense until it became one of those "half finished projects" people are always talking about. 
+
+**I learned a ton, what was a bit disappointing was not to having a finished project.** 
 
 Therefore to make this new project enjoyable and feasible, I decided to write some clear goals. 
 
