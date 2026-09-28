@@ -202,6 +202,8 @@ const items = modules
     });
     // Hide as soon as the reader scrolls
     window.addEventListener('scroll', hideTimelineNow, { passive: true });
+    // Hide when the reader clicks into the journal content
+    document.querySelector('.panel')?.addEventListener('click', hideTimelineNow);
 
     cards.forEach((c) =>
       c.addEventListener('click', () => {

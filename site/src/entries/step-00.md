@@ -34,18 +34,16 @@ Therefore, to make this new project enjoyable and feasible I decided to have som
 You might be wondering how I came up with such a clear set of learning goals? 
 Thankfully this time I already had a good idea of what I wanted to build so all I did was work backwards from my a good begineer project to find the skills I needed. 
 
-In the past, a mentor or teacher would give you a small project using their vast knowldge on a specific subject. Today we have ChatGPT so I used that.
+In the past, a mentor or teacher would give you a small project using their vast knowldge on a specific subject. Today we have LLMs to hallucinate a slew of beginner projects for us to choose from. 
 
 **Project Goal**
 
 
 > "Build a small autonomous car that can stay within lanes created out of electrical tape and avoid parked vehicles while it makes its way to its destination using computer vision.
 
-Very simple.
+Intentionally very simple.
 
-Its called ChatGPT. I told it what I wanted to be able to do and it gave me a list of 
-
-So now that my learning goals were set and I new what steps to take to create my own autonomy stack, I needed to determine what robot would be best such that I wouldn't be having to deal with complicated hardware. 
+So now that my learning goals were set and I knew what steps to take to create my own autonomy stack, I needed to determine what robot would be best such that I wouldn't be having to deal with complicated hardware. 
 
 PiCar-X per their website is 
 
