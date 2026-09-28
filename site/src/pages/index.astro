@@ -24,13 +24,13 @@ const items = modules
 const showJump = items.length >= 8;
 ---
 
-<Layout title="GaussianShark: Classical Autonomy Stack">
+<Layout title="GaussianShark › Classical Autonomy Stack">
   <header class="masthead">
     <div class="container">
       <p class="kicker">Classical (non-learned) autonomy · small autonomous vehicles</p>
       <div class="brand">
         <img class="logo" src={`${base}logo.svg`} alt="" />
-        <h1>GaussianShark: Classical Autonomy Stack</h1>
+        <h1>GaussianShark › Classical Autonomy Stack</h1>
       </div>
       <p class="sub">
         A build log for a transparent, hardware-agnostic autonomy stack —
@@ -190,7 +190,7 @@ const showJump = items.length >= 8;
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
       localStorage.setItem('selectedStep', id ?? '__none__');
       const title = on ? document.querySelector(`.detail[data-id="${id}"] .detail-title`)?.textContent : null;
-      document.title = title ? title : 'GaussianShark: Classical Autonomy Stack';
+      document.title = title ? title : 'GaussianShark › Classical Autonomy Stack';
       if (on) revealTimeline();
     }
 
