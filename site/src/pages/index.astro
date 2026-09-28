@@ -283,15 +283,22 @@ const entries = modules
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
-        left: 5rem;
-        /* end 6rem to the left of the journal's left edge (journal is 50rem,
+        left: 2.5rem;
+        /* end ~4rem to the left of the journal's left edge (journal is 50rem,
            so its left edge is at 50% - 25rem) */
-        right: calc(50% + 25rem + 6rem);
+        right: calc(50% + 25rem + 4rem);
         flex: none; width: auto; max-width: none;
         overflow-y: auto;
         overscroll-behavior: contain;
         padding-right: 0.5rem;
       }
+      /* Compact cards while reading: no image, tighter, smaller */
+      :global(html.reading) .has-selection .row { grid-template-columns: 1.5rem 1fr; gap: 0.7rem; padding-bottom: 1.25rem; }
+      :global(html.reading) .has-selection .card .img { display: none; }
+      :global(html.reading) .has-selection .card .body { padding: 0.6rem 0.75rem; }
+      :global(html.reading) .has-selection .card h2 { font-size: 0.9rem; margin-bottom: 0.15rem; }
+      :global(html.reading) .has-selection .card p,
+      :global(html.reading) .has-selection .card .open-hint { display: none; }
     }
     .detail { display: none; padding: 0.25rem 0.5rem 2rem 0; }
     .detail.active { display: block; }
@@ -301,11 +308,11 @@ const entries = modules
     .close:hover { border-color: var(--accent); color: var(--accent); }
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
     /* Rendered Markdown journal body (Shiki/markdown HTML has no scope id, so use :global) */
-    .prose { max-width: 75ch; font-family: Georgia, 'Times New Roman', serif; letter-spacing: 0.015em; -webkit-font-smoothing: antialiased; }
-    .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1rem; font-weight: 650; color: var(--accent-2); }
+    .prose { max-width: 75ch; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; letter-spacing: 0.015em; -webkit-font-smoothing: antialiased; }
+    .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1.05rem; font-weight: 650; color: var(--accent-2); clear: both; }
     .prose :global(p) { margin: 0 0 1rem; color: var(--prose); line-height: 1.8; font-weight: 400; }
-    .prose :global(:not(pre) > code) { background: transparent; border: 0; padding: 0.05em 0.15em; font-size: 0.85em; color: var(--accent); }
-    .prose :global(pre) { margin: 0 0 1.25rem; padding: 0.9rem 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+    .prose :global(:not(pre) > code) { background: transparent; border: 0; padding: 0.05em 0.15em; font-size: 0.82em; color: var(--accent); }
+    .prose :global(pre) { margin: 0 0 1.25rem; padding: 0.9rem 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; clear: both; }
     .prose :global(pre code) { background: transparent; border: 0; padding: 0; font-size: 0.82rem; line-height: 1.45; }
     .prose :global(img) { max-width: 360px; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 0.25rem auto 0.4rem; cursor: zoom-in; }
     /* An italic line right after an image acts as its caption */
@@ -313,9 +320,17 @@ const entries = modules
     .prose :global(ul), .prose :global(ol) { color: var(--prose); line-height: 1.7; padding-left: 1.25rem; margin: 0 0 1rem; }
     .prose :global(a) { color: var(--accent); }
     /* Blockquotes ( > lines ) get a clean accent treatment */
-    .prose :global(blockquote) { margin: 0 0 1.25rem; padding: 0.6rem 1rem; border-left: 3px solid var(--accent); background: var(--note-bg); color: var(--prose); border-radius: 0 6px 6px 0; }
+    .prose :global(blockquote) { margin: 0 0 1.25rem; padding: 0.6rem 1rem; border-left: 3px solid var(--accent); background: var(--note-bg); color: var(--prose); border-radius: 0 6px 6px 0; clear: both; }
     .prose :global(blockquote p) { margin: 0; }
     .prose :global(strong) { color: var(--text); }
+    /* Wrap text around an image: <figure class="wrap-right"> or wrap-left */
+    .prose :global(figure.wrap-right), .prose :global(figure.wrap-left) { max-width: 45%; margin: 0.2rem 0 0.8rem; }
+    .prose :global(figure.wrap-right) { float: right; margin-left: 1.3rem; }
+    .prose :global(figure.wrap-left) { float: left; margin-right: 1.3rem; }
+    .prose :global(figure img) { margin: 0; max-width: 100%; cursor: zoom-in; }
+    .prose :global(figure figcaption) { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.35rem; }
+    .prose :global(.clear) { clear: both; }
+    .prose::after { content: ''; display: block; clear: both; }
 
     /* ---- Responsive: panel becomes a full overlay ---- */
     @media (max-width: 820px) {

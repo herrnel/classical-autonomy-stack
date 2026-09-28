@@ -45,6 +45,23 @@ That's it — the timeline, mini-rail, and journal update automatically.
   *This caption shows under the image.*
   ```
 
+## Wrapping text around an image
+
+To put an image beside text (text flows around it), use an HTML `<figure>` with
+`class="wrap-right"` (or `wrap-left`) directly in the Markdown:
+
+```html
+<figure class="wrap-right">
+  <img src="/classical-autonomy-stack/timeline/my-plot.svg" alt="...">
+  <figcaption>Optional caption.</figcaption>
+</figure>
+
+Your paragraphs after this will wrap around the image on the right...
+```
+
+Use `class="wrap-left"` to float it to the left instead. To force following
+content below the image (stop wrapping), add `<div class="clear"></div>`.
+
 ## Adding images / plots
 
 1. Put the file in **`site/public/timeline/`** (jpg, png, svg…).

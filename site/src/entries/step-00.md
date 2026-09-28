@@ -7,11 +7,9 @@ image: "timeline/step-0.svg"
 summary: "My goal was to turn my PiCar-X into an autonomous system whose, perception, work representation, planning, and control are modules I can explain and debug myself"
 ---
 
-This was my first real hands-on experience with a robot in many years. I had previosly tried creating an autonomy stack for a drone inside of gazebo but sadly went down a rabbit hole and became one of those half finished project people are always talking about. 
+This was my first *real hands-on experience* with a robot in many years. I had previosly tried creating an autonomy stack for a drone inside of gazebo but sadly went down a rabbit hole of never ending learning became one of those half finished project people are always talking about. I learned a *ton*, what was a bit disappointing was not to having a finished project. 
 
-The main reason for me this time, was because of unclear learning goals.
-
-Therefore to make this time enjoyable (and feasible) I decided to write some clear ones. 
+Therefore to make this new project enjoyable and feasible, I decided to write some clear goals. 
 
 **Learning Goals**
 
@@ -43,5 +41,14 @@ PiCar-X per their website is
 > The PiCar-X’s 2-axis camera module, ultrasonic module, and line tracking modules can provide the functions of color/face/traffic-signs detection, automatic obstacle avoidance, automatic line tracking, etc. 
 
 Perfect!
+
+Here is my little road map:
+
+1. **Build your own hardware abstraction layer**
+    - Create a vehicle interface for steering, velocity, camera, range sensing, and stop behavior so autonomy code never talks directly with PiCar-X SDK. 
+    - *Why?*
+2. **Calibrate and model the robot**
+3. **Create a world representation**
+4. **Plan, control, and quantify performance**
 
 
