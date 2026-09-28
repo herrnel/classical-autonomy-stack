@@ -13,11 +13,11 @@ summary: "My goal was to turn my PiCar-X into an autonomous system whose, percep
   <figcaption>The three-verb Vehicle contract.</figcaption>
 </figure>
 
-This was my first real hands-on experience with a robot in a very long time so please bear with me as I enthusiastically share potentially basic concepts. 
+This was my first real hands-on experience with a robot in a very long time so please bear with me as I share potentially basic concepts. 
 
-I had previosly tried creating an autonomy stack for a drone inside of gazebo few months ago which ended up dead. Poor goal setting sling-shot me down a rabbit hole of never ending learning and setup nonesense until it became one of those "half finished projects" people are always talking about. 
+Recently before this, I had tried to create an drone autonomy stack inside of gazebo which ended up not doing much. Poor goal setting on my part sling-shot me down a rabbit hole of never ending learning and setup nonesense until it became one of those "half finished projects" people are always talking about. 
 
-**I learned a ton, what was a bit disappointing was not to having a finished project.** 
+**I learned a ton, but not to having a finished project is disappointing.** 
 
 Therefore, to make this new project enjoyable and feasible I decided to have some actual learning goals. 
 
@@ -34,16 +34,17 @@ Therefore, to make this new project enjoyable and feasible I decided to have som
 You might be wondering how I came up with such a clear set of learning goals? 
 Thankfully this time I already had a good idea of what I wanted to build so all I did was work backwards from my a good begineer project to find the skills I needed. 
 
-In the past, a mentor or teacher would give you a small project using their vast knowldge on a specific subject. Today we have LLMs to hallucinate a slew of beginner projects for us to choose from. 
+In the past, a mentor or teacher would give you a small project using their vast knowldge on a specific subject. Today we have LLMs that can hallucinate a slew of beginner friendly projects for us to choose from. 
 
 **Project Goal**
 
 
 > "Build a small autonomous car that can stay within lanes created out of electrical tape and avoid parked vehicles while it makes its way to its destination using computer vision.
 
-Intentionally very simple.
+I intentionally chose a very simple project.
 
 So now that my learning goals were set and I knew what steps to take to create my own autonomy stack, I needed to determine what robot would be best such that I wouldn't be having to deal with complicated hardware. 
+
 
 PiCar-X per their website is 
 
