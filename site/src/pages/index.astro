@@ -72,7 +72,6 @@ const entries = modules
                   <span class="date">{f.date}</span>
                   <code class="tag">{f.tag}</code>
                 </div>
-                <button class="close" type="button" aria-label="Close journal">Close ✕</button>
               </div>
               <h2 class="detail-title">{f.title}</h2>
               <div class="prose">
@@ -283,6 +282,7 @@ const entries = modules
         width: var(--jw);
         margin-left: auto;      /* centre the journal on screen */
         margin-right: auto;
+        transform: translateX(-50px);  /* shift the journal slightly left */
         opacity: 1;
       }
       :global(html.reading) .has-selection .timeline {
@@ -314,7 +314,7 @@ const entries = modules
     .close:hover { border-color: var(--accent); color: var(--accent); }
     .detail-title { margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
     /* Rendered Markdown journal body (Shiki/markdown HTML has no scope id, so use :global) */
-    .prose { max-width: 75ch; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; letter-spacing: 0.015em; -webkit-font-smoothing: antialiased; }
+    .prose { max-width: 70ch; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1rem; letter-spacing: 0.015em; -webkit-font-smoothing: antialiased; }
     .prose :global(h2), .prose :global(h3) { margin: 1.75rem 0 0.6rem; font-size: 1.05rem; font-weight: 650; color: var(--accent-2); clear: both; }
     .prose :global(p) { margin: 0 0 1rem; color: var(--prose); line-height: 1.8; font-weight: 400; }
     .prose :global(:not(pre) > code) { background: transparent; border: 0; padding: 0.05em 0.15em; font-size: 0.82em; color: var(--accent); }
