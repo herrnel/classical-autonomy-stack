@@ -283,7 +283,7 @@ const entries = modules
         position: fixed;
         top: calc(var(--header-h, 1.5rem) + 1rem);
         bottom: 1rem;
-        left: 3.5rem;           /* clear of the tiny (mini) timeline */
+        left: 2.4rem;           /* as close to the left as possible, clear of the mini timeline */
         right: calc(50% + 25rem + 4rem);
         flex: none; width: auto; max-width: none;
         overflow-y: auto;
@@ -291,7 +291,7 @@ const entries = modules
         padding-right: 0.5rem;
       }
       /* Compact cards while reading: no image, tighter, smaller, centred */
-      :global(html.reading) .has-selection .row { grid-template-columns: 1.1rem 1fr; gap: 0.55rem; padding-bottom: 1.1rem; max-width: 12rem; margin: 0 auto; }
+      :global(html.reading) .has-selection .row { grid-template-columns: 1.1rem 1fr; gap: 0.55rem; padding-bottom: 1.1rem; max-width: 14rem; margin: 0 auto; }
       :global(html.reading) .has-selection .card .img { display: none; }
       :global(html.reading) .has-selection .card .body { padding: 0.55rem 0.7rem; }
       :global(html.reading) .has-selection .card h2 { font-size: 0.85rem; margin-bottom: 0.15rem; }
