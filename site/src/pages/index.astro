@@ -148,6 +148,7 @@ const items = modules
       });
       details.forEach((d) => d.classList.toggle('active', d.dataset.id === id));
       miniItems.forEach((m) => m.classList.toggle('active', m.dataset.id === id));
+      localStorage.setItem('selectedStep', id ?? '__none__');
     }
 
     cards.forEach((c) =>
@@ -188,8 +189,15 @@ const items = modules
     );
     lightbox.addEventListener('click', closeLightbox);
 
-    // Open the most recent entry by default (cards are newest-first)
-    select(cards[0]?.dataset.id ?? null);
+    // Restore the last-viewed entry on refresh (falls back to the newest)
+    const saved = localStorage.getItem('selectedStep');
+    if (saved === '__none__') {
+      select(null);
+    } else if (saved && Array.from(cards).some((c) => c.dataset.id === saved)) {
+      select(saved);
+    } else {
+      select(cards[0]?.dataset.id ?? null);
+    }
   </script>
 
   <style>
